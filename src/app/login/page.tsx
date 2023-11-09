@@ -19,7 +19,15 @@ import { Logo } from "../components/Logo";
 import { OAuthButtonGroup } from "../components/OAuthButtonGroup";
 import { PasswordField } from "../components/PasswordField";
 
+const colorForm = "blackAlpha.700";
+
+const isChecked = () => {
+  console.log("Check");
+  
+}
+
 const LogIn = () => (
+
   <Container
     maxW="lg"
     py={{ base: "12", md: "24" }}
@@ -44,13 +52,13 @@ const LogIn = () => (
         <Stack spacing="6">
           <Stack spacing="5">
             <FormControl>
-              <FormLabel htmlFor="email">Student Id</FormLabel>
+              <FormLabel borderColor={colorForm} htmlFor="email" colorScheme="red">Student Id</FormLabel>
               <Input id="email" type="email" />
             </FormControl>
             <PasswordField />
           </Stack>
           <HStack justify="space-between">
-            <Checkbox colorScheme="yellow" defaultChecked>Remember me</Checkbox>
+            <Checkbox onChange = {isChecked} colorScheme="yellow" borderColor={colorForm}>accept our policy</Checkbox>
           </HStack>
           <Stack spacing="6">
             <Button>Sign in</Button>

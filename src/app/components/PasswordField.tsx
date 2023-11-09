@@ -26,7 +26,7 @@ import {
   
     return (
       <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
+        <FormLabel borderColor="blackAlpha.700" htmlFor="password">Password</FormLabel>
         <InputGroup>
           <InputRightElement>
             <IconButton
