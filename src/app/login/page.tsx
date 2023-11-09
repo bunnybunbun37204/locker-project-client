@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Checkbox,
   Container,
   Divider,
@@ -12,30 +13,53 @@ import {
   HStack,
   Input,
   Link,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
   Stack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Logo } from "../components/Logo";
 import { OAuthButtonGroup } from "../components/OAuthButtonGroup";
 import { PasswordField } from "../components/PasswordField";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const LogIn = () => {
+  const initRef = useRef<any>();
+  const { isOpen, onToggle, onClose } = useDisclosure();
+
   const colorForm = "blackAlpha.700";
   const [isCheck, setCheckState] = useState(false);
+  const [isAccept, setAcceptState] = useState(false);
 
   const toggleCheckBox = () => {
     console.log(isCheck);
     setCheckState(!isCheck);
-
   };
 
-  const toggleButton = () => {
-    if (isCheck) {
-      console.log("Is Check Naja");
-      
-    }
+  const toggleAccept = () => {
+    setCheckState(false);
+    setAcceptState(true);
   }
+
+  const toggleClose = () => {
+    setCheckState(false);
+    setAcceptState(false);
+  }
+
+
+  const toggleButton = () => {
+    if (isAccept) {
+      console.log("Is Check Naja");
+    }
+  };
 
   return (
     <Container
@@ -74,16 +98,44 @@ const LogIn = () => {
               <PasswordField />
             </Stack>
             <HStack justify="space-between">
-              <Checkbox
-                onChange={toggleCheckBox}
-                colorScheme="yellow"
-                borderColor={colorForm}
+              <Popover
+                returnFocusOnClose={false}
+                isOpen={isCheck}
+                onClose={toggleClose}
+                placement="right"
+                closeOnBlur={false}
               >
-                accept our policy
-              </Checkbox>
+                <PopoverTrigger>
+                  <Checkbox
+                    isChecked={isAccept}
+                    onChange={toggleCheckBox}
+                    colorScheme="yellow"
+                    borderColor={colorForm}
+                  >
+                    accept our policy
+                  </Checkbox>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverHeader fontWeight="semibold">
+                    Confirmation
+                  </PopoverHeader>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    ยอมรับซะไอ่สัส
+                  </PopoverBody>
+                  <PopoverFooter display="flex" justifyContent="flex-end">
+                    <ButtonGroup size="sm">
+                      <Button colorScheme="red" onClick={toggleAccept}>Apply</Button>
+                    </ButtonGroup>
+                  </PopoverFooter>
+                </PopoverContent>
+              </Popover>
             </HStack>
             <Stack spacing="6">
-              <Button isDisabled={!isCheck} onClick={toggleButton}>Sign in</Button>
+              <Button isDisabled={!isAccept} onClick={toggleButton}>
+                Sign in
+              </Button>
             </Stack>
           </Stack>
         </Box>
