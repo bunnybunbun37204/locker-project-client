@@ -6,13 +6,11 @@ import {
   ButtonGroup,
   Checkbox,
   Container,
-  Divider,
   FormControl,
   FormLabel,
   Heading,
   HStack,
   Input,
-  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -21,19 +19,14 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
-  Portal,
   Stack,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Logo } from "../components/Logo";
-import { OAuthButtonGroup } from "../components/OAuthButtonGroup";
 import { PasswordField } from "../components/PasswordField";
 import { useRef, useState } from "react";
 
 const LogIn = () => {
-  const initRef = useRef<any>();
-  const { isOpen, onToggle, onClose } = useDisclosure();
 
   const colorForm = "blackAlpha.700";
   const [isCheck, setCheckState] = useState(false);
