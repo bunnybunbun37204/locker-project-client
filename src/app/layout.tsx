@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body style={{backgroundColor : "rgb(252 211 77);"}}>
         <Providers>
           {children}
         </Providers>

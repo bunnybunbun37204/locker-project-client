@@ -26,7 +26,7 @@ export const Logo = () => {
           repeatType: "loop",
         }}
         padding="2"
-        bgGradient="linear(to-l, #7928CA, #FF0080)"
+        bgGradient="linear(to-l, rgb(253 224 71),  rgb(234 179 8))"
         display="flex"
         justifyContent="center"
         alignItems="center"
