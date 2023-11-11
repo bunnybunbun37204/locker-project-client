@@ -20,17 +20,27 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Stack,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { Logo } from "../components/Logo";
+import { Logo, Logo1 } from "../components/Logo";
 import { PasswordField } from "../components/PasswordField";
-import { useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import useSWRMutation from "swr/mutation";
 
 const LogIn = () => {
-
+  const router = useRouter();
   const colorForm = "blackAlpha.700";
   const [isCheck, setCheckState] = useState(false);
   const [isAccept, setAcceptState] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleChangeUserId = (e: {
+    target: { value: SetStateAction<string> };
+  }) => setUserId(e.target.value);
+  const handleChangePassword = (e: {
+    target: { value: SetStateAction<string> };
+  }) => setPassword(e.target.value);
 
   const toggleCheckBox = () => {
     console.log(isCheck);
@@ -40,19 +50,42 @@ const LogIn = () => {
   const toggleAccept = () => {
     setCheckState(false);
     setAcceptState(true);
-  }
+  };
 
   const toggleClose = () => {
     setCheckState(false);
     setAcceptState(false);
-  }
+  };
 
-
-  const toggleButton = () => {
+  const toggleButton = async() => {
     if (isAccept) {
+      console.log(userId);
+      console.log(password);
       console.log("Is Check Naja");
+      const result = await trigger({username : userId, password : password});
+      if (error) {
+        console.log("Error");
+      }
+      console.log(result);
+      
+      //router.push(`/users/${userId}`)
     }
   };
+
+  async function sendRequest(url : string, { arg }: { arg: { username: string, password : string}}) {
+    console.log("ARG ",arg);
+    
+    return fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      method: 'POST',
+      body: JSON.stringify(arg)
+    }).then(res => res.json())
+  }
+
+  const { data, error, trigger, isMutating } = useSWRMutation('http://localhost:8000/getUser', sendRequest, /* options */)
 
   return (
     <Container
@@ -72,7 +105,7 @@ const LogIn = () => {
         <Box
           py={{ base: "0", sm: "8" }}
           px={{ base: "4", sm: "10" }}
-          bg={{ base: "transparent", sm: "rgb(253 230 138)" }}
+          bg={{ base: "transparent", sm: "rgb(253 230 138)"}}
           boxShadow={{ base: "none", sm: "md" }}
           borderRadius={{ base: "none", sm: "xl" }}
         >
@@ -86,16 +119,21 @@ const LogIn = () => {
                 >
                   Student Id
                 </FormLabel>
-                <Input id="email" type="email" />
+                <Input
+                  id="email"
+                  type="email"
+                  value={userId}
+                  onChange={handleChangeUserId}
+                />
               </FormControl>
-              <PasswordField />
+              <PasswordField value={password} onChange={handleChangePassword} />
             </Stack>
             <HStack justify="space-between">
               <Popover
                 returnFocusOnClose={false}
                 isOpen={isCheck}
                 onClose={toggleClose}
-                placement="right"
+                placement="top-start"
                 closeOnBlur={false}
               >
                 <PopoverTrigger>
@@ -114,12 +152,12 @@ const LogIn = () => {
                   </PopoverHeader>
                   <PopoverArrow />
                   <PopoverCloseButton />
-                  <PopoverBody>
-                    ยอมรับซะไอ่สัส
-                  </PopoverBody>
+                  <PopoverBody>ยอมรับซะไอ่สัส</PopoverBody>
                   <PopoverFooter display="flex" justifyContent="flex-end">
                     <ButtonGroup size="sm">
-                      <Button colorScheme="red" onClick={toggleAccept}>Apply</Button>
+                      <Button colorScheme="red" onClick={toggleAccept}>
+                        Apply
+                      </Button>
                     </ButtonGroup>
                   </PopoverFooter>
                 </PopoverContent>
@@ -129,6 +167,9 @@ const LogIn = () => {
               <Button isDisabled={!isAccept} onClick={toggleButton}>
                 Sign in
               </Button>
+              {isMutating && <h1>Loading</h1>}
+              {error && <h1>Error</h1>}
+              {data && <h1>Hello</h1>}
             </Stack>
           </Stack>
         </Box>
