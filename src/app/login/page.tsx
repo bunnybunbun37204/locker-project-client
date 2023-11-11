@@ -66,9 +66,9 @@ const LogIn = () => {
       if (error) {
         console.log("Error");
       }
-      console.log(result);
+      console.log(result);      
       
-      //router.push(`/users/${userId}`)
+      router.push(`/users/${result.username}`);
     }
   };
 
@@ -169,7 +169,6 @@ const LogIn = () => {
               </Button>
               {isMutating && <h1>Loading</h1>}
               {error && <h1>Error</h1>}
-              {data && <h1>Hello</h1>}
             </Stack>
           </Stack>
         </Box>

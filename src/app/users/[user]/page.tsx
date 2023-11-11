@@ -8,7 +8,7 @@ const User = () => {
     
     return (
         <h1>
-            Hello User
+            Hello {params.user}
         </h1>
     );
 };
