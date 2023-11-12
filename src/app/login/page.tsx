@@ -68,7 +68,7 @@ const LogIn = () => {
       }
       console.log(result);      
       
-      router.push(`/users/${result.username}`);
+      router.push(`/users/${result.id}`);
     }
   };
 
@@ -85,7 +85,7 @@ const LogIn = () => {
     }).then(res => res.json())
   }
 
-  const { data, error, trigger, isMutating } = useSWRMutation('http://localhost:8000/getUser', sendRequest, /* options */)
+  const {error, trigger } = useSWRMutation('http://localhost:8000/getUser', sendRequest, /* options */)
 
   return (
     <Container
@@ -167,8 +167,6 @@ const LogIn = () => {
               <Button isDisabled={!isAccept} onClick={toggleButton}>
                 Sign in
               </Button>
-              {isMutating && <h1>Loading</h1>}
-              {error && <h1>Error</h1>}
             </Stack>
           </Stack>
         </Box>
