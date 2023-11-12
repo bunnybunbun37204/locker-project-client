@@ -1,34 +1,36 @@
 'use client'
 
 import { useParams } from "next/navigation";
-import useSWRMutation from "swr/mutation";
+import { useEffect } from "react";
+import useSWR from "swr";
 
 const User = () => {
-    async function sendRequest(url : string, { arg }: { arg: string}) {
-        console.log("ARG ",arg);
+    async function fetcher(url : string) {
+        console.log(url);
         
-        return fetch(url, {
-          headers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          method: 'POST',
-          body: JSON.stringify({id : arg})
-        }).then(res => res.json())
-      }
-    const {data,isMutating,error, trigger } = useSWRMutation('http://localhost:8000/getUserById', sendRequest, /* options */)
-
+        return fetch(url).then(res => res.json())
+    }
     const params = useParams();
-    console.log(params.user);
-    trigger(params.user.toString());
-
+    const { data, error, mutate } = useSWR(
+      params.user ? `http://localhost:8000/getUser/${params.user}` : null,
+      fetcher // Assume you have a fetcher function defined elsewhere
+    );
+  
+    useEffect(() => {
+      if (params.user) {
+        // Trigger the fetch when the user ID changes
+        mutate();
+      }
+    }, [params.user, mutate]);
+  
     return (
-        <>
+      <>
         {error && <h1>Error...</h1>}
         {!data && <h1>Loading....</h1>}
-        {data &&  <h1>Hello {data.username}</h1>}
-        </>
+        {data && <h1>Hello {data.username}</h1>}
+      </>
     );
-};
-
-export default User;
+  };
+  
+  export default User;
+  
