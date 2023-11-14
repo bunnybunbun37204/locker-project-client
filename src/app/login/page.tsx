@@ -26,18 +26,20 @@ import { PasswordField } from "../components/PasswordField";
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSWRMutation from "swr/mutation";
+import { useCookies } from "react-cookie";
 
 const LogIn = () => {
   const router = useRouter();
   const colorForm = "blackAlpha.700";
   const [isCheck, setCheckState] = useState(false);
   const [isAccept, setAcceptState] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const handleChangeUserId = (e: {
     target: { value: SetStateAction<string> };
-  }) => setUserId(e.target.value);
+  }) => setEmail(e.target.value);
   const handleChangePassword = (e: {
     target: { value: SetStateAction<string> };
   }) => setPassword(e.target.value);
@@ -57,35 +59,48 @@ const LogIn = () => {
     setAcceptState(false);
   };
 
-  const toggleButton = async() => {
+  const toggleButton = async () => {
     if (isAccept) {
-      console.log(userId);
+      console.log(email);
       console.log(password);
       console.log("Is Check Naja");
-      const result = await trigger({username : userId, password : password});
+      const result = await trigger({ email: email, password: password });
+      setCookie("user", result.id, {
+        maxAge:60 * 60
+      });
       if (error) {
         console.log("Error");
       }
-      console.log(result);      
-      
-      router.push(`/users/${result.id}`);
+      console.log(result);
+
+      router.push("/users/");
     }
   };
 
-  async function sendRequest(url : string, { arg }: { arg: { username: string, password : string}}) {
-    console.log("ARG ",arg);
-    
+  useEffect(() => {
+    console.log('Cookies: ', cookies.user);
+  }, [cookies]);
+
+  async function sendRequest(
+    url: string,
+    { arg }: { arg: { email: string; password: string } }
+  ) {
+    console.log("ARG ", arg);
+
     return fetch(url, {
       headers: {
         "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      method: 'POST',
-      body: JSON.stringify(arg)
-    }).then(res => res.json())
+      method: "POST",
+      body: JSON.stringify(arg),
+    }).then((res) => res.json());
   }
 
-  const {error, trigger } = useSWRMutation('http://localhost:8000/getUser', sendRequest, /* options */)
+  const { error, trigger } = useSWRMutation(
+    "http://localhost:8000/getUser",
+    sendRequest /* options */
+  );
 
   return (
     <Container
@@ -105,7 +120,7 @@ const LogIn = () => {
         <Box
           py={{ base: "0", sm: "8" }}
           px={{ base: "4", sm: "10" }}
-          bg={{ base: "transparent", sm: "rgb(253 230 138)"}}
+          bg={{ base: "transparent", sm: "rgb(253 230 138)" }}
           boxShadow={{ base: "none", sm: "md" }}
           borderRadius={{ base: "none", sm: "xl" }}
         >
@@ -122,7 +137,7 @@ const LogIn = () => {
                 <Input
                   id="email"
                   type="email"
-                  value={userId}
+                  value={email}
                   onChange={handleChangeUserId}
                 />
               </FormControl>
