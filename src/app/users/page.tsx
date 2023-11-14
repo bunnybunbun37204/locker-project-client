@@ -13,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import useSWR from "swr";
+import LockerModal from "../components/LockerModal";
 
 const User = () => {
   async function fetcher(url: string) {
@@ -20,13 +21,13 @@ const User = () => {
 
     return fetch(url).then((res) => res.json());
   }
+
   const router = useRouter();
   const [cookies] = useCookies(["user"]);
-  const { data, error, mutate , isLoading} = useSWR(
+  const { data, error, mutate, isLoading } = useSWR(
     cookies.user ? `http://localhost:8000/getUser/${cookies.user}` : null,
     fetcher // Assume you have a fetcher function defined elsewhere
   );
-
   useEffect(() => {
     if (!cookies.user) {
       router.push("/login");
@@ -51,21 +52,21 @@ const User = () => {
           <Stack spacing="6">
             <Stack spacing="5">
               {error && <h1>Error.....</h1>}
-              {isLoading && <CircularProgress color="#facc15" isIndeterminate />}
+              {isLoading && (
+                <CircularProgress color="#facc15" isIndeterminate />
+              )}
               {data && (
                 <>
                   <Heading>Hello {data.username}</Heading>
-                    {data.locker.locker_id === "0" && (
-                      <Stack direction="row" spacing={4} align="center">
-                        <Text fontSize='xl'>Dont have locker yet? booking</Text>
-                        <Button colorScheme="yellow" variant="solid">
-                          Booking
-                        </Button>
-                      </Stack>
-                    )}
-                    {data.locker.locker_id !== "0" && (
-                      <h1>{data.locker.locker_id}</h1>
-                    )}
+                  {data.locker.locker_id === "0" && (
+                    <Stack direction="row" spacing={4} align="center">
+                      <Text fontSize="xl">Dont have locker yet? booking</Text>
+                      <LockerModal />
+                    </Stack>
+                  )}
+                  {data.locker.locker_id !== "0" && (
+                    <h1>{data.locker.locker_id}</h1>
+                  )}
                 </>
               )}
             </Stack>
