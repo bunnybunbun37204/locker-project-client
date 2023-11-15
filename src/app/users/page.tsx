@@ -6,14 +6,14 @@ import {
   Container,
   Box,
   CircularProgress,
-  Button,
   Text,
 } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import useSWR from "swr";
 import LockerModal from "../components/LockerModal";
+import UnBookedBtn from "../components/UnBookButton";
 
 const User = () => {
   async function fetcher(url: string) {
@@ -23,17 +23,20 @@ const User = () => {
   }
 
   const router = useRouter();
-  const [cookies] = useCookies(["user"]);
+  const [cookies] = useCookies(["user", "brownie"]);
   const { data, error, mutate, isLoading } = useSWR(
     cookies.user ? `http://localhost:8000/getUser/${cookies.user}` : null,
     fetcher // Assume you have a fetcher function defined elsewhere
   );
   useEffect(() => {
+    console.log("Brownie", cookies.brownie);
+    
     if (!cookies.user) {
       router.push("/login");
     }
+
     mutate();
-  }, [mutate, cookies.user, router]);
+  }, [mutate, cookies.user, router, cookies.brownie]);
 
   return (
     <Container
@@ -58,14 +61,17 @@ const User = () => {
               {data && (
                 <>
                   <Heading>Hello {data.username}</Heading>
-                  {data.locker.locker_id === "0" && (
+                  {data.locker.status === "FALSE" && (
                     <Stack direction="row" spacing={4} align="center">
                       <Text fontSize="xl">Dont have locker yet? booking</Text>
                       <LockerModal />
                     </Stack>
                   )}
-                  {data.locker.locker_id !== "0" && (
-                    <h1>{data.locker.locker_id}</h1>
+                  {data.locker.status !== "FALSE" && (
+                    <Stack direction="row" spacing={4} align="center">
+                      <Text fontSize="xl">Booked data {data.locker.locker_id}</Text>
+                      <UnBookedBtn/>
+                    </Stack>
                   )}
                 </>
               )}

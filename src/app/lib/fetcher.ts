@@ -1,6 +1,6 @@
 export async function sendRequest(
     url: string,
-    { arg }: { arg: { username: string; locker_id: string, isBooked : string } }
+    { arg }: { arg: { user_id: string; locker_id: string, isBooked : string } }
   ) {
     console.log("ARG ", arg);
 

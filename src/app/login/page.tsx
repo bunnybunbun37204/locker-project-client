@@ -167,7 +167,7 @@ const LogIn = () => {
                   </PopoverHeader>
                   <PopoverArrow />
                   <PopoverCloseButton />
-                  <PopoverBody>ยอมรับซะไอ่สัส</PopoverBody>
+                  <PopoverBody>ยอมรับเถอะพี่</PopoverBody>
                   <PopoverFooter display="flex" justifyContent="flex-end">
                     <ButtonGroup size="sm">
                       <Button colorScheme="red" onClick={toggleAccept}>
