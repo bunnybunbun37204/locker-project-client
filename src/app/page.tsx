@@ -1,16 +1,5 @@
-"use client"
-
-import { useRouter } from 'next/navigation';
-import { useCookies } from 'react-cookie';
+import LogIn from "./login/page";
 
 export default function Home() {
-  const [cookies] = useCookies(["user"]);
-  const router = useRouter();
-  if (cookies.user) {
-    router.push('/users');
-  }
-  else {
-    router.push('/login');
-  }
-  return <></>
+  return <LogIn/>;
 }
