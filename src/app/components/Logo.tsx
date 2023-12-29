@@ -1,17 +1,29 @@
-import { Container, chakra, shouldForwardProp, Image, createIcon } from '@chakra-ui/react';
-import { motion, isValidMotionProp } from 'framer-motion';
+import {
+  Container,
+  chakra,
+  shouldForwardProp,
+  Image,
+  createIcon,
+} from "@chakra-ui/react";
+import { motion, isValidMotionProp } from "framer-motion";
 
 const ChakraBox = chakra(motion.div, {
   /**
    * Allow motion props and non-Chakra props to be forwarded.
    */
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
+  shouldForwardProp: (prop) =>
+    isValidMotionProp(prop) || shouldForwardProp(prop),
 });
 
 export const Logo = () => {
-  const breakPoint : string[] = ["40vh", "30vh", "40vh"];
+  const breakPoint: string[] = ["40vh", "30vh", "40vh"];
   return (
-    <Container h={breakPoint} display="flex" alignItems="center" justifyContent="center">
+    <Container
+      h={breakPoint}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
       <ChakraBox
         animate={{
           scale: [1, 2, 2, 1, 1],
@@ -33,14 +45,15 @@ export const Logo = () => {
         width="100px"
         height="100px"
       >
-        <Image 
-        alt='Logo' 
-        boxSize='10vh'
-        src='https://sv1.picz.in.th/images/2023/11/09/ddy11WW.png'/>
+        <Image
+          alt="Logo"
+          boxSize="10vh"
+          src="https://sv1.picz.in.th/images/2023/11/09/ddy11WW.png"
+        />
       </ChakraBox>
     </Container>
-  )
-}
+  );
+};
 
 export const Logo1 = createIcon({
   displayName: "WiredFlat_412Gift",
@@ -74,6 +87,44 @@ export const Logo1 = createIcon({
       <path
         fill="currentColor"
         d="M326.06 63.62c-.14-15.15-12.74-27.67-30-29.78-22.38-2.75-52.41 11.8-72.57 58.17-2.32 5.333-4.497 11.063-6.53 17.19a191.993 191.993 0 00-7-18.1c-20.44-45.77-50.67-60.06-73.19-57.24-17.65 2.21-30.06 14.47-30.15 29.82-.1 14.39 11 30.95 38.92 44.07 14.61 6.85 33.81 12.75 58.46 16.94l-81.44 26.59c-.094.03-.185.07-.27.12a3.445 3.445 0 00-2.13 3.2l-.16 41.07v1.24a3.48 3.48 0 002.52 3.36l10.84 3.11-.36 169.25 6.84 2.07c.106-.323.16-.66.16-1l.38-172.72v-.24a3.511 3.511 0 00-2.55-3.38L127 194.27l.1-37.12 7.69-2.51 80-26.14.21.09c.288.07.583.107.88.11h.27l79.42 25.8 5.24 1.71 2.89.94-.09 35.85-11 3.5a3.52 3.52 0 00-2.43 3.35v.73l.48 172.76c.002.34.06.678.17 1l6.83-2.11-.47-169.86 10.93-3.5a3.494 3.494 0 002.44-3.32v-.47l.12-40.48a3.494 3.494 0 00-2.41-3.34h-.12l-80.46-26.18c24.74-4.09 44.07-10 58.78-16.79 28.47-13.23 39.71-30.06 39.59-44.67zM156.58 104.9c-31-12.3-43-28.3-42.94-41.17.07-11.74 9.94-21.16 24-22.92a36.894 36.894 0 014.74-.3c19.25 0 43.39 14.11 60.75 52.36a196.384 196.384 0 019.58 26.12c-23.24-3.44-41.71-8.36-56.13-14.09zm118.81.51c-14 5.51-31.84 10.24-54.1 13.58a202.467 202.467 0 019.05-25.22c17.2-38.93 41.24-53.27 60.37-53.27 1.507 0 3.014.094 4.51.28 13.93 1.72 23.78 11.13 23.84 22.9.1 13.06-12.13 29.34-43.66 41.73h-.01z"
+      />
+    </>
+  ),
+});
+
+export const IconLocker = createIcon({
+  displayName: "Locker",
+  viewBox: "0 0 98 98",
+  path: (
+    <>
+      <path
+        id="&#224;&#184;&#129;&#224;&#184;&#165;&#224;&#184;&#161; &#224;&#185;&#128;&#224;&#184;&#171;&#224;&#184;&#165;&#224;&#184;&#183;&#224;&#184;&#173;&#224;&#184;&#135;"
+        d="M41.9 21C41.9 32.5428 32.5428 41.9 21 41.9C9.45725 41.9 0.1 32.5428 0.1 21C0.1 9.45725 9.45725 0.1 21 0.1C32.5428 0.1 41.9 9.45725 41.9 21Z"
+        fill="#F7CF47"
+        stroke="black"
+        strokeWidth="0.2"
+      />
+      <path
+        id="&#224;&#184;&#129;&#224;&#184;&#165;&#224;&#184;&#161; &#224;&#184;&#148;&#224;&#184;&#179;"
+        d="M97.9 21C97.9 32.5428 88.5428 41.9 77 41.9C65.4572 41.9 56.1 32.5428 56.1 21C56.1 9.45725 65.4572 0.1 77 0.1C88.5428 0.1 97.9 9.45725 97.9 21Z"
+        fill="#403C3C"
+        stroke="black"
+        strokeWidth="0.2"
+      />
+      <path
+        id="&#224;&#184;&#129;&#224;&#184;&#165;&#224;&#184;&#161; &#224;&#185;&#128;&#224;&#184;&#151;&#224;&#184;&#178;"
+        d="M41.9 77C41.9 88.5428 32.5428 97.9 21 97.9C9.45725 97.9 0.1 88.5428 0.1 77C0.1 65.4572 9.45725 56.1 21 56.1C32.5428 56.1 41.9 65.4572 41.9 77Z"
+        fill="#D9D9D9"
+        fillOpacity="0.84"
+        stroke="black"
+        strokeWidth="0.2"
+      />
+      <path
+        id="&#224;&#184;&#129;&#224;&#184;&#165;&#224;&#184;&#161; &#224;&#185;&#128;&#224;&#184;&#171;&#224;&#184;&#165;&#224;&#184;&#183;&#224;&#184;&#173;&#224;&#184;&#135;_2"
+        d="M97.9 77C97.9 88.5428 88.5428 97.9 77 97.9C65.4572 97.9 56.1 88.5428 56.1 77C56.1 65.4572 65.4572 56.1 77 56.1C88.5428 56.1 97.9 65.4572 97.9 77Z"
+        fill="#F7CF47"
+        stroke="black"
+        strokeWidth="0.2"
       />
     </>
   ),

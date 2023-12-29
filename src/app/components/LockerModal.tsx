@@ -87,7 +87,7 @@ const LockerModal = () => {
       <Button colorScheme="yellow" variant="solid" onClick={onOpen}>
         Booking
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="3xl" isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} size="3xl" isCentered scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Modal Title</ModalHeader>
