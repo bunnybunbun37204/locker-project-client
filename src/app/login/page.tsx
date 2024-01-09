@@ -24,7 +24,7 @@ import { IconLocker } from "../components/Logo";
 import { useState } from "react";
 
 const Login = () => {
-  const colorForm = "blackAlpha.700";
+  const colorForm = "rgba(30, 30, 30, 0.90)";
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isCheck, setCheckState] = useState(false);
   const [isOpens, setIsOpens] = useState(false);
@@ -81,6 +81,11 @@ const Login = () => {
             <Checkbox
               isChecked={isCheck}
               onChange={toggleCheckBox2}
+              _checked={{
+                "& .chakra-checkbox__control": { background: "white" , borderColor: "black"}
+              }}
+              iconColor="black"
+              iconSize={100}
               colorScheme="blackAlpha"
               borderColor={colorForm}
             >
@@ -90,7 +95,7 @@ const Login = () => {
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader>นโยบายการจัดเก็บข้อมูลส่วนบุคคล</ModalHeader>
-                <ModalCloseButton />
+                <ModalCloseButton onClick={() => setIsOpens(false)} />
                 <ModalBody
                   css={{
                     // Set the max height and enable scrolling
