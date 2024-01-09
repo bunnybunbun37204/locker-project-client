@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Image,
@@ -8,57 +9,83 @@ import {
   Text,
   VStack,
   Button,
-  Center, // Import the Center component
+  Center,
 } from "@chakra-ui/react";
 
-const Booking = () => {
+const Booking: React.FC = () => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <>
-      <VStack>
-        <Image
-          width="84px"
-          height="76px"
-          src="logo_sci.png"
-          alt="Sci Logo"
-          position="absolute"
-          top="25px"
-          right="48px"
-        />
-        <Divider
-          height={120}
-          size="10px"
-          borderColor="black"
-          borderWidth="1px"
-        />
-        <VStack>
-          <Center>
-            {/* Wrap the HStack with the Center component */}
-            <HStack spacing={11} marginTop={30}>
-              <Button borderRadius={33} background="#F7CF47" width={125}>
-                <Text fontSize={25} fontStyle="normal">
-                  DATE
-                </Text>
-              </Button>
-              <Button borderRadius={33} background="#F7CF47" width={125}>
-                <Text fontSize={25} fontStyle="normal">
-                  ZONE
-                </Text>
-              </Button>
-              <Button borderRadius={33} background="#F7CF47" >
-                <Text fontSize={25} fontStyle="normal">
-                  SITE&RULES
-                </Text>
-              </Button>
+    <VStack spacing={6} align="center">
+      <Image
+        src="logo_sci.png"
+        alt="Sci Logo"
+        width="84px"
+        height="76px"
+        position="absolute"
+        top="25px"
+        right="48px"
+      />
+      <Divider height={120} size="10px" borderColor="black" borderWidth="1px" />
+      <Center>
+        <VStack spacing={6}>
+          {isMobile ? (
+            <>
+              <VStack>
+                <HStack spacing={6}>
+                  <BookingButton label="DATE" />
+                  <BookingButton label="ZONE" />
+                </HStack>
+                <BookingButton label="SITE&RULES" />
+              </VStack>
+            </>
+          ) : (
+            <HStack spacing={6}>
+              <BookingButton label="DATE" />
+              <BookingButton label="ZONE" />
+              <BookingButton label="SITE&RULES" />
             </HStack>
-          </Center>
+          )}
         </VStack>
-        <Container marginTop={57} marginLeft={175} marginRight={174}>
-          <Container marginLeft={20} marginRight={20}>
-            <Text>Hello</Text>
-          </Container>
+      </Center>
+      <Container marginTop={6} mx="auto">
+        <Container
+          maxW={{ base: "90%", md: "container.sm" }}
+          p={4}
+          bgColor="gray.100"
+          borderRadius="md"
+        >
+          <Text fontSize={{ base: "xl", md: "2xl" }}>Hello</Text>
         </Container>
-      </VStack>
-    </>
+      </Container>
+    </VStack>
+  );
+};
+
+const BookingButton: React.FC<{ label: string }> = ({ label }) => {
+  return (
+    <Button
+      borderRadius={8}
+      background="#F7CF47"
+      width={{ base: "100%", md: "auto" }}
+    >
+      <Text fontSize={{ base: "xl", md: "2xl" }} fontStyle="normal">
+        {label}
+      </Text>
+    </Button>
   );
 };
 
