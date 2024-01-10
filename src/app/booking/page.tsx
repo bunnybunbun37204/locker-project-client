@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+// Import necessary Chakra UI components and any additional components or styles you might need
 import React, { useEffect, useState } from "react";
 import {
   Container,
@@ -13,9 +14,13 @@ import {
 } from "@chakra-ui/react";
 import CalendarContainer from "../components/CalendarContainer"; // Adjust the path as needed
 
+// Assuming you have a list of zones
+const zones = ["Zone A", "Zone B", "Zone C", "Zone D"];
+
 const Booking: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  const [selectedZone, setSelectedZone] = useState<string | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,12 +36,15 @@ const Booking: React.FC = () => {
   }, []);
 
   const handleSelectDate = (date: Date) => {
-    // Add or remove the selected date based on whether it's already in the array
-    setSelectedDates((prevDates) =>
-      prevDates.some((d) => d.getTime() === date.getTime())
-        ? prevDates.filter((d) => d.getTime() !== date.getTime())
-        : [...prevDates, date]
-    );
+    // Implement your logic for handling selected dates
+    // This is just a placeholder
+    setSelectedDates((prevDates) => [...prevDates, date]);
+  };
+
+  const handleSelectZone = (zone: string) => {
+    // Implement your logic for handling selected zones
+    // This is just a placeholder
+    setSelectedZone(zone);
   };
 
   return (
@@ -72,29 +80,60 @@ const Booking: React.FC = () => {
           )}
         </VStack>
       </Center>
-      <Container marginTop={6} mx="auto">
-        <Container
-          maxW={{ base: "90%", md: "container.sm" }}
-          p={4}
-          bgColor="gray.100"
-          borderRadius="md"
-        >
-          <Text fontSize={{ base: "l", md: "2xl" }}>
-            Selected Dates: {selectedDates.map((date) => date.toDateString()).join(", ")}
-          </Text>
-        </Container>
-        <CalendarContainer selectedDates={selectedDates} onSelectDate={handleSelectDate} />
+      <Container maxW={{ base: "90%", md: "container.sm" }} p={4} bgColor="gray.100" borderRadius="md">
+        <Text>Select Date</Text>
+        {/* Display selected dates */}
+        <Text fontSize={{ base: "l", md: "2xl" }}>
+          Selected Dates: {selectedDates.map((date) => date.toDateString()).join(", ")}
+        </Text>
+      </Container>
+      {/* Calendar container */}
+      <CalendarContainer selectedDates={selectedDates} onSelectDate={handleSelectDate} />
+      <Container maxW={{ base: "90%", md: "container.sm" }} p={4} bgColor="gray.100" borderRadius="md">
+        <Text>Select Zone</Text>
+        {/* Display zones in a horizontal card layout */}
+        <HStack spacing={4}>
+          {zones.map((zone) => (
+            <ZoneCard
+              key={zone}
+              zone={zone}
+              isSelected={zone === selectedZone}
+              onSelectZone={() => handleSelectZone(zone)}
+            />
+          ))}
+          <Button colorScheme="facebook">GOOO</Button>
+        </HStack>
       </Container>
     </VStack>
   );
 };
 
+// BookingButton component
 const BookingButton: React.FC<{ label: string }> = ({ label }) => {
   return (
     <Button borderRadius={33} background="#F7CF47" width={{ base: "100%", md: "auto" }}>
       <Text fontSize={{ base: "xl", md: "2xl" }} fontStyle="normal">
         {label}
       </Text>
+    </Button>
+  );
+};
+
+// ZoneCard component
+const ZoneCard: React.FC<{ zone: string; isSelected: boolean; onSelectZone: () => void }> = ({
+  zone,
+  isSelected,
+  onSelectZone,
+}) => {
+  return (
+    <Button
+      borderRadius={8}
+      background={isSelected ? "blue.500" : undefined}
+      color={isSelected ? "white" : undefined}
+      _hover={{ bg: "blue.300" }}
+      onClick={onSelectZone}
+    >
+      {zone}
     </Button>
   );
 };

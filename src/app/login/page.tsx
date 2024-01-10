@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { IconLocker } from "../components/Logo";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const colorForm = "rgba(30, 30, 30, 0.90)";
@@ -29,6 +30,8 @@ const Login = () => {
   const [isCheck, setCheckState] = useState(false);
   const [isOpens, setIsOpens] = useState(false);
   const [isAccept, setAcceptState] = useState(false);
+  const router = useRouter()
+
 
   const toggleCheckBox = () => {
     console.log(isCheck);
@@ -173,6 +176,7 @@ const Login = () => {
             background="rgba(30, 30, 30, 0.90)"
             color="white"
             borderRadius="17px"
+            onClick={() => router.push('/booking')}
             isDisabled={!isAccept}
           >
             เข้าสู่ระบบผ่าน Chula SSO

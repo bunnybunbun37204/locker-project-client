@@ -25,7 +25,7 @@ const CalendarCard: React.FC<CalendarCardProps> = ({ month, selectedDates, onSel
   };
 
   return (
-    <Box boxShadow="md" p={2} borderRadius="md">
+    <Box boxShadow="md" p={2} borderRadius="md" maxW="sm"> {/* Adjust maxW here */}
       <VStack spacing={1} align="center">
         <Text fontSize="md" fontWeight="bold">
           {month.toLocaleDateString("en-US", { month: "short", year: "numeric" })}

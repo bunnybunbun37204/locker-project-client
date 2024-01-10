@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { HStack, IconButton, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import CalendarCard from "./CalendarCard"; // Adjust the path as needed
+import CalendarCard from "./CalendarCard";
 
 interface CalendarContainerProps {
   selectedDates: Date[];
