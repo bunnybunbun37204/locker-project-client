@@ -10,8 +10,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const Locker = () => {
+  const searchParams = useSearchParams();
+
+  
   const numRows = 6;
   const numCols = 12;
 
@@ -34,7 +38,9 @@ const Locker = () => {
     <>
       <Container marginTop={125} marginLeft={150}>
         <VStack spacing={4}>
-          <Heading>Zone A</Heading>
+          <Heading>{searchParams.get('selectedZone')} </Heading>
+          {/* <Text>Selected Date: {searchParams.get('selectedDate')}</Text> */}
+
           <HStack spacing={3} marginLeft={20}>
             {/* Available */}
             <Box
