@@ -11,11 +11,18 @@ import {
   Button,
   Center,
 } from "@chakra-ui/react";
-import CalendarCard from "../components/CalendarCard"; // Adjust the path as needed
-import CalendarContainer from "../components/CalendarContainer";
+
+const formatDate = (date: Date): string => {
+  // Simple date formatting for demonstration purposes
+  return date.toISOString().split("T")[0];
+};
 
 const Booking: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [selectedDates, setSelectedDates] = useState<Date[]>([
+    new Date(),
+    new Date(),
+  ]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,28 +48,12 @@ const Booking: React.FC = () => {
         top="25px"
         right="48px"
       />
-      <Divider height={120} size="10px" borderColor="black" borderWidth="1px" />
-      <Center>
-        <VStack spacing={6}>
-          {isMobile ? (
-            <>
-              <VStack>
-                <HStack spacing={6}>
-                  <BookingButton label="DATE" />
-                  <BookingButton label="ZONE" />
-                </HStack>
-                <BookingButton label="SITE&RULES" />
-              </VStack>
-            </>
-          ) : (
-            <HStack spacing={6}>
-              <BookingButton label="DATE" />
-              <BookingButton label="ZONE" />
-              <BookingButton label="SITE&RULES" />
-            </HStack>
-          )}
-        </VStack>
-      </Center>
+      <Divider
+        height={120}
+        size="10px"
+        borderColor="black"
+        borderWidth="1px"
+      />
       <Container marginTop={6} mx="auto">
         <Container
           maxW={{ base: "90%", md: "container.sm" }}
@@ -72,10 +63,39 @@ const Booking: React.FC = () => {
         >
           <Text fontSize={{ base: "xl", md: "2xl" }}>Hello</Text>
         </Container>
-        <CalendarContainer />
-
+        <HStack
+          overflowX="auto"
+          spacing={4}
+          py={4}
+          px={2}
+          mt={4}
+          sx={{
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+        >
+          {selectedDates.map((date, index) => (
+            <DateCard key={index} date={date} />
+          ))}
+        </HStack>
       </Container>
     </VStack>
+  );
+};
+
+const DateCard: React.FC<{ date: Date }> = ({ date }) => {
+  return (
+    <Container
+      bg="white"
+      borderRadius="md"
+      p={4}
+      boxShadow="md"
+      minW="120px"
+      textAlign="center"
+    >
+      <Text fontSize="md">{formatDate(date)}</Text>
+    </Container>
   );
 };
 
