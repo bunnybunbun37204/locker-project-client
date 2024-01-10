@@ -11,11 +11,11 @@ import {
   Button,
   Center,
 } from "@chakra-ui/react";
-import CalendarCard from "../components/CalendarCard"; // Adjust the path as needed
-import CalendarContainer from "../components/CalendarContainer";
+import CalendarContainer from "../components/CalendarContainer"; // Adjust the path as needed
 
 const Booking: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,6 +29,15 @@ const Booking: React.FC = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleSelectDate = (date: Date) => {
+    // Add or remove the selected date based on whether it's already in the array
+    setSelectedDates((prevDates) =>
+      prevDates.some((d) => d.getTime() === date.getTime())
+        ? prevDates.filter((d) => d.getTime() !== date.getTime())
+        : [...prevDates, date]
+    );
+  };
 
   return (
     <VStack spacing={6} align="center">
@@ -70,10 +79,11 @@ const Booking: React.FC = () => {
           bgColor="gray.100"
           borderRadius="md"
         >
-          <Text fontSize={{ base: "xl", md: "2xl" }}>Hello</Text>
+          <Text fontSize={{ base: "l", md: "2xl" }}>
+            Selected Dates: {selectedDates.map((date) => date.toDateString()).join(", ")}
+          </Text>
         </Container>
-        <CalendarContainer />
-
+        <CalendarContainer selectedDates={selectedDates} onSelectDate={handleSelectDate} />
       </Container>
     </VStack>
   );
@@ -81,11 +91,7 @@ const Booking: React.FC = () => {
 
 const BookingButton: React.FC<{ label: string }> = ({ label }) => {
   return (
-    <Button
-      borderRadius={33}
-      background="#F7CF47"
-      width={{ base: "100%", md: "auto" }}
-    >
+    <Button borderRadius={33} background="#F7CF47" width={{ base: "100%", md: "auto" }}>
       <Text fontSize={{ base: "xl", md: "2xl" }} fontStyle="normal">
         {label}
       </Text>

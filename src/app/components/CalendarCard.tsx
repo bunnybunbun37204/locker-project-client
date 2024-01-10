@@ -1,65 +1,64 @@
+// CalendarCard.tsx
 import React from "react";
-import { Container, Text, VStack, HStack, Grid, GridItem } from "@chakra-ui/react";
-import { startOfMonth, endOfMonth, eachDayOfInterval, format, getDay } from "date-fns";
+import { VStack, Text, Button, Grid, GridItem, Box } from "@chakra-ui/react";
 
-const CalendarCard: React.FC<{ month: Date }> = ({ month }) => {
-  // Calculate the first day of the month
-  const startOfMonthDate = startOfMonth(month);
-  const endOfMonthDate = endOfMonth(month);
+interface CalendarCardProps {
+  month: Date;
+  selectedDates: Date[];
+  onSelectDate: (date: Date) => void;
+}
 
-  // Generate an array of dates for the entire month
-  const monthDates = eachDayOfInterval({
-    start: startOfMonthDate,
-    end: endOfMonthDate,
-  });
+const CalendarCard: React.FC<CalendarCardProps> = ({ month, selectedDates, onSelectDate }) => {
+  const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+  const firstDayOfMonth = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
+  const monthDays = Array.from({ length: daysInMonth + firstDayOfMonth }, (_, i) =>
+    i < firstDayOfMonth
+      ? null // Placeholder for days before the first day of the month
+      : new Date(month.getFullYear(), month.getMonth(), i - firstDayOfMonth + 1)
+  );
 
-  // Get the day of the week for the 1st day of the month
-  const firstDayOfWeek = getDay(startOfMonthDate);
+  const isDateInRange = (date: Date) => {
+    if (selectedDates.length === 2) {
+      return date >= selectedDates[0] && date <= selectedDates[1];
+    }
+    return false;
+  };
 
   return (
-    <Container
-      bg="white"
-      borderRadius="md"
-      p={4}
-      boxShadow="md"
-      minW="300px"
-      textAlign="center"
-    >
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        {format(month, "MMMM yyyy")}
-      </Text>
-      <VStack spacing={2}>
-        <Grid templateColumns="repeat(7, 1fr)" gap={2}>
+    <Box boxShadow="md" p={2} borderRadius="md">
+      <VStack spacing={1} align="center">
+        <Text fontSize="md" fontWeight="bold">
+          {month.toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+        </Text>
+        <Grid templateColumns="repeat(7, 1fr)" gap={1}>
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <GridItem key={day} colSpan={1} textAlign="center" fontSize="sm" fontWeight="bold">
-              {day}
+            <GridItem key={day} colSpan={1} textAlign="center">
+              <Text fontWeight="bold" fontSize="xs">
+                {day}
+              </Text>
             </GridItem>
           ))}
-          {Array.from({ length: firstDayOfWeek }, (_, index) => (
-            <GridItem
-              key={`empty-${index}`}
-              colSpan={1}
-              textAlign="center"
-              fontSize="sm"
-              color="gray.400"
-            >
-              {/* Empty grid cells before the 1st day of the month */}
-            </GridItem>
-          ))}
-          {monthDates.map((date) => (
-            <GridItem
-              key={date.toString()}
-              colSpan={1}
-              textAlign="center"
-              fontSize="sm"
-              color="black"
-            >
-              {format(date, "d")}
+          {monthDays.map((day, index) => (
+            <GridItem key={index} colSpan={1} textAlign="center">
+              {day ? (
+                <Button
+                  onClick={() => onSelectDate(day)}
+                  bg={isDateInRange(day) ? "blue.500" : selectedDates.includes(day) ? "blue.200" : undefined}
+                  color={selectedDates.includes(day) ? "white" : undefined}
+                  _hover={{ bg: "blue.300" }}
+                  w="100%"
+                  fontSize="sm"
+                >
+                  {day.getDate()}
+                </Button>
+              ) : (
+                <Text color="transparent">{" "}</Text>
+              )}
             </GridItem>
           ))}
         </Grid>
       </VStack>
-    </Container>
+    </Box>
   );
 };
 
