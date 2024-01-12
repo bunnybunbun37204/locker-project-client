@@ -25,7 +25,7 @@ const CalendarCard: React.FC<CalendarCardProps> = ({ month, selectedDates, onSel
   };
 
   return (
-    <Box boxShadow="md" p={2} borderRadius="md" maxW="sm"> {/* Adjust maxW here */}
+    <Box boxShadow="md" p={2} borderRadius="md" maxW="sm" display={"flex"} flexShrink={"0"}> {/* Adjust maxW here */}
       <VStack spacing={1} align="center">
         <Text fontSize="md" fontWeight="bold">
           {month.toLocaleDateString("en-US", { month: "short", year: "numeric" })}
@@ -43,9 +43,9 @@ const CalendarCard: React.FC<CalendarCardProps> = ({ month, selectedDates, onSel
               {day ? (
                 <Button
                   onClick={() => onSelectDate(day)}
-                  bg={isDateInRange(day) ? "blue.500" : selectedDates.includes(day) ? "blue.200" : undefined}
+                  bg={isDateInRange(day) ? "#F7CF47" : selectedDates.includes(day) ? "#F7CF20" : undefined}
                   color={selectedDates.includes(day) ? "white" : undefined}
-                  _hover={{ bg: "blue.300" }}
+                  _hover={{ bg: "#F7CF30" }}
                   w="100%"
                   fontSize="sm"
                 >

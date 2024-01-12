@@ -11,6 +11,7 @@ import {
   VStack,
   Button,
   Center,
+  Heading,
 } from "@chakra-ui/react";
 import CalendarContainer from "../components/CalendarContainer"; // Adjust the path as needed
 import { useRouter } from "next/navigation";
@@ -50,7 +51,7 @@ const Booking: React.FC = () => {
   };
 
   return (
-    <VStack spacing={6} align="center">
+    <VStack spacing={6}>
       <Image
         src="logo_sci.png"
         alt="Sci Logo"
@@ -61,27 +62,29 @@ const Booking: React.FC = () => {
         right="48px"
       />
       <Divider height={120} size="10px" borderColor="black" borderWidth="1px" />
-      <Center>
-        <VStack spacing={6}>
-          {isMobile ? (
-            <>
-              <VStack>
-                <HStack spacing={6}>
-                  <BookingButton label="DATE" />
-                  <BookingButton label="ZONE" />
-                </HStack>
-                <BookingButton label="SITE&RULES" />
-              </VStack>
-            </>
-          ) : (
-            <HStack spacing={6}>
-              <BookingButton label="DATE" />
-              <BookingButton label="ZONE" />
+      <VStack spacing={6} alignItems={"flex-start"} alignContent={"flex-start"} flexWrap={"wrap"}>
+        {isMobile ? (
+          <>
+            <VStack>
+              <HStack spacing={6}>
+                <BookingButton label="DATE" />
+                <BookingButton label="ZONE" />
+              </HStack>
               <BookingButton label="SITE&RULES" />
-            </HStack>
-          )}
-        </VStack>
-      </Center>
+            </VStack>
+          </>
+        ) : (
+          <HStack spacing={6}>
+            <BookingButton label="DATE" />
+            <BookingButton label="ZONE" />
+            <BookingButton label="SITE&RULES" />
+          </HStack>
+        )}
+      </VStack>
+      <VStack spacing={3} alignItems={"flex-start"}>
+        <Text>booking date</Text>
+        <Heading>Date</Heading>
+      </VStack>
       <Container
         maxW={{ base: "90%", md: "container.sm" }}
         p={4}
@@ -92,7 +95,7 @@ const Booking: React.FC = () => {
         {/* Display selected dates */}
         <Text fontSize={{ base: "l", md: "2xl" }}>
           Selected Dates:{" "}
-          {selectedDates.map((date) => date.toDateString()).join(", ")}
+          {selectedDates.map((date) => date.toDateString()).join(" to ")}
         </Text>
       </Container>
       {/* Calendar container */}
@@ -120,7 +123,9 @@ const Booking: React.FC = () => {
           <Button
             colorScheme="facebook"
             onClick={() =>
-              router.push(`/locker?selectedDate=${selectedDates.toString()}&selectedZone=${selectedZone}`)
+              router.push(
+                `/locker?selectedDate=${selectedDates.toString()}&selectedZone=${selectedZone}`
+              )
             }
           >
             GOOO
@@ -137,7 +142,7 @@ const BookingButton: React.FC<{ label: string }> = ({ label }) => {
     <Button
       borderRadius={33}
       background="#F7CF47"
-      width={{ base: "100%", md: "auto" }}
+      width={{ base: "auto", md: "auto" }}
     >
       <Text fontSize={{ base: "xl", md: "2xl" }} fontStyle="normal">
         {label}

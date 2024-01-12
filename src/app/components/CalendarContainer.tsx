@@ -31,7 +31,7 @@ const CalendarContainer: React.FC<CalendarContainerProps> = ({ selectedDates, on
 
   return (
     <>
-      <HStack justifyContent="center" mb={4}>
+      <HStack justifyContent="center" mb={4} display={"flex"} minW={"80%"} alignItems={"center"} alignContent={"center"} flexWrap={"wrap"}>
         <IconButton icon={<FaChevronLeft />} aria-label="Previous Months" onClick={handlePrevMonth} />
         {isMobile ? (
           <CalendarCard month={currentMonth} selectedDates={selectedDates} onSelectDate={onSelectDate} />

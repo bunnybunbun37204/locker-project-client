@@ -179,7 +179,7 @@ const Login = () => {
             color="white"
             borderRadius="17px"
             isDisabled={!isAccept}
-            onClick={() => router.push("/booking")}
+            onClick={() => router.push("/booking_demo")}
           >
             เข้าสู่ระบบผ่าน Chula SSO
           </Button>
