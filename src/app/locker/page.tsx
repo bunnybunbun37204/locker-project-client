@@ -27,7 +27,7 @@ const Locker = () => {
 
   // Generate labelsArray
   const labelsArray: string[] = [];
-  for (let i = 1; i <= 109; i++) {
+  for (let i = 1; i <= 1000; i++) {
     const label = `A${i.toString().padStart(3, "0")}`;
     labelsArray.push(label);
   }
@@ -88,76 +88,77 @@ const Locker = () => {
   };
 
   return (
-    <VStack marginLeft={"10%"} marginTop={10} alignItems={"start"}>
+    <VStack marginTop={10} alignItems={"start"}>
       <Container
         display={"flex"}
         alignItems={"flex-start"}
         alignContent={"flex-start"}
+        justifyItems={"start"}
         flex={"wrap"}
-        minW={"90%"}
+        minW={"full"}
         flexDirection={"column"}
       >
-        <Text textAlign={"left"}>booking</Text>
-        <Heading>ZONE {selectedZone}</Heading>
-        <HStack display={"flex"} flexWrap={"wrap"}>
-          <Box
-            display={"flex"}
-            borderRadius={15}
-            border={"1px solid"}
-            maxW={171.745}
-            width={"auto"}
-            padding={"4px 6px"}
-            height={23}
-            justifyContent={"center"}
-            alignItems={"center"}
-            gap={2}
-            marginTop={2}
-          >
-            <GrayBall width={8.872} height={9} strokeWidth={0.2} />
-            <Text>available</Text>
-          </Box>
-          <Box
-            display={"flex"}
-            borderRadius={15}
-            border={"1px solid"}
-            maxW={171.745}
-            width={"auto"}
-            padding={"4px 6px"}
-            height={23}
-            justifyContent={"center"}
-            alignItems={"center"}
-            gap={2}
-            marginTop={2}
-          >
-            <YellowBall width={8.872} height={9} strokeWidth={0.2} />
-            <Text>unavailable</Text>
-          </Box>
-        </HStack>
+        <Container marginLeft={"5%"}>
+          <Text textAlign={"left"}>booking</Text>
+          <Heading>ZONE {selectedZone}</Heading>
+          <HStack display={"flex"} flexWrap={"wrap"}>
+            <Box
+              display={"flex"}
+              borderRadius={15}
+              border={"1px solid"}
+              maxW={171.745}
+              width={"auto"}
+              padding={"4px 6px"}
+              height={23}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={2}
+              marginTop={2}
+            >
+              <GrayBall width={8.872} height={9} strokeWidth={0.2} />
+              <Text>available</Text>
+            </Box>
+            <Box
+              display={"flex"}
+              borderRadius={15}
+              border={"1px solid"}
+              maxW={171.745}
+              width={"auto"}
+              padding={"4px 6px"}
+              height={23}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={2}
+              marginTop={2}
+            >
+              <YellowBall width={8.872} height={9} strokeWidth={0.2} />
+              <Text>unavailable</Text>
+            </Box>
+          </HStack>
+        </Container>
+
         {/* Circular buttons with Next and Previous buttons */}
-        <HStack display={"flex"} flexWrap={"wrap"} marginTop={4} spacing={4}>
-          {/* "Previous" button */}
+        <HStack spacing={2} display={"flex"} marginTop={4} maxW={625}>
           {currentPosition > 0 && (
             <IconButton
               aria-label="Previous"
               icon={<ChevronLeftIcon />}
               onClick={handlePreviousClick}
-              position="absolute"
-              left={"10%"}
-              top="50%"
               transform="translateY(-50%)"
             />
           )}
-          {/* Circular buttons */}
-          {renderCircularButtons()}
-          {/* "Next" button */}
+          {currentPosition == 0 && <Box marginRight={10}></Box>}
+          <HStack display={"flex"} flexWrap={"wrap"}>
+            {/* "Previous" button */}
+            {/* Circular buttons */}
+            {renderCircularButtons()}
+            {/* "Next" button */}
+          </HStack>
           {currentPosition < labelsArray.length - totalRows * totalCols && (
             <IconButton
               aria-label="Next"
               icon={<ChevronRightIcon />}
               onClick={handleNextClick}
-              position="absolute"
-              top="50%"
-              right={"10%"}
               transform="translateY(-50%)"
             />
           )}
