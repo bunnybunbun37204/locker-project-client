@@ -9,6 +9,8 @@ import {
   Text,
   VStack,
   IconButton,
+  Button,
+  Divider,
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import CircularButton from "../components/CircularButton";
@@ -27,7 +29,7 @@ const Locker = () => {
 
   // Generate labelsArray
   const labelsArray: string[] = [];
-  for (let i = 1; i <= 1000; i++) {
+  for (let i = 1; i <= 1001; i++) {
     const label = `A${i.toString().padStart(3, "0")}`;
     labelsArray.push(label);
   }
@@ -88,83 +90,128 @@ const Locker = () => {
   };
 
   return (
-    <VStack marginTop={10} alignItems={"start"}>
-      <Container
+    <HStack spacing={4} display={"flex"} flexWrap={"wrap"}>
+      <VStack marginTop={10} alignItems={"start"}>
+        <Container
+          display={"flex"}
+          alignItems={"center"}
+          alignContent={"center"}
+          justifyItems={"center"}
+          flex={"wrap"}
+          maxW={625}
+          minW={"full"}
+          flexDirection={"column"}
+        >
+          <Container marginLeft={"5%"}>
+            <Text textAlign={"left"}>booking</Text>
+            <Heading>ZONE {selectedZone}</Heading>
+            <HStack display={"flex"} flexWrap={"wrap"}>
+              <Box
+                display={"flex"}
+                borderRadius={15}
+                border={"1px solid"}
+                maxW={171.745}
+                width={"auto"}
+                padding={"4px 6px"}
+                height={23}
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={2}
+                marginTop={2}
+              >
+                <GrayBall width={8.872} height={9} strokeWidth={0.2} />
+                <Text>available</Text>
+              </Box>
+              <Box
+                display={"flex"}
+                borderRadius={15}
+                border={"1px solid"}
+                maxW={171.745}
+                width={"auto"}
+                padding={"4px 6px"}
+                height={23}
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={2}
+                marginTop={2}
+              >
+                <YellowBall width={8.872} height={9} strokeWidth={0.2} />
+                <Text>unavailable</Text>
+              </Box>
+            </HStack>
+          </Container>
+
+          {/* Circular buttons with Next and Previous buttons */}
+          <HStack spacing={2} display={"flex"} marginTop={4} maxW={625}>
+            {currentPosition > 0 && (
+              <IconButton
+                borderRadius={"full"}
+                aria-label="Previous"
+                icon={<ChevronLeftIcon />}
+                onClick={handlePreviousClick}
+                transform="translateY(-50%)"
+                background={"blackAlpha.800"}
+                color={"white"}
+                
+              />
+            )}
+            {currentPosition == 0 && <Box marginRight={10}></Box>}
+            <HStack display={"flex"} flexWrap={"wrap"}>
+              {/* "Previous" button */}
+              {/* Circular buttons */}
+              {renderCircularButtons()}
+              {/* "Next" button */}
+            </HStack>
+            {currentPosition < labelsArray.length - totalRows * totalCols && (
+              <IconButton
+                aria-label="Next"
+                background={"blackAlpha.800"}
+                color={"white"}
+                borderRadius={"full"}
+                icon={<ChevronRightIcon />}
+                onClick={handleNextClick}
+                transform="translateY(-50%)"
+              />
+            )}
+          </HStack>
+          <Button
+            background={"blackAlpha.800"}
+            width={{ base: 120, md: 348 }}
+            alignItems={"center"}
+            color={"white"}
+            marginTop={5}
+            borderRadius={17}
+          >
+            จอง
+          </Button>
+        </Container>
+      </VStack>
+      <Box
         display={"flex"}
+        borderRadius={33}
+        marginLeft={"5%"}
+        border={"0.5px solid"}
+        width={332}
         alignItems={"flex-start"}
-        alignContent={"flex-start"}
-        justifyItems={"start"}
-        flex={"wrap"}
-        minW={"full"}
+        gap={"10px"}
+        padding={"0px 24px 12px 20px"}
         flexDirection={"column"}
       >
-        <Container marginLeft={"5%"}>
-          <Text textAlign={"left"}>booking</Text>
-          <Heading>ZONE {selectedZone}</Heading>
-          <HStack display={"flex"} flexWrap={"wrap"}>
-            <Box
-              display={"flex"}
-              borderRadius={15}
-              border={"1px solid"}
-              maxW={171.745}
-              width={"auto"}
-              padding={"4px 6px"}
-              height={23}
-              justifyContent={"center"}
-              alignItems={"center"}
-              gap={2}
-              marginTop={2}
-            >
-              <GrayBall width={8.872} height={9} strokeWidth={0.2} />
-              <Text>available</Text>
-            </Box>
-            <Box
-              display={"flex"}
-              borderRadius={15}
-              border={"1px solid"}
-              maxW={171.745}
-              width={"auto"}
-              padding={"4px 6px"}
-              height={23}
-              justifyContent={"center"}
-              alignItems={"center"}
-              gap={2}
-              marginTop={2}
-            >
-              <YellowBall width={8.872} height={9} strokeWidth={0.2} />
-              <Text>unavailable</Text>
-            </Box>
-          </HStack>
-        </Container>
-
-        {/* Circular buttons with Next and Previous buttons */}
-        <HStack spacing={2} display={"flex"} marginTop={4} maxW={625}>
-          {currentPosition > 0 && (
-            <IconButton
-              aria-label="Previous"
-              icon={<ChevronLeftIcon />}
-              onClick={handlePreviousClick}
-              transform="translateY(-50%)"
-            />
-          )}
-          {currentPosition == 0 && <Box marginRight={10}></Box>}
-          <HStack display={"flex"} flexWrap={"wrap"}>
-            {/* "Previous" button */}
-            {/* Circular buttons */}
-            {renderCircularButtons()}
-            {/* "Next" button */}
-          </HStack>
-          {currentPosition < labelsArray.length - totalRows * totalCols && (
-            <IconButton
-              aria-label="Next"
-              icon={<ChevronRightIcon />}
-              onClick={handleNextClick}
-              transform="translateY(-50%)"
-            />
-          )}
-        </HStack>
-      </Container>
-    </VStack>
+        <Box
+          display={"flex"}
+          width={224}
+          height={51}
+          alignItems={"flex-end"}
+          gap={"10px"}
+        >
+          <Text fontSize={30}>ZONE {selectedZone}</Text>
+          <Text fontSize={14}>MHMK ชั้น 2</Text>
+        </Box>
+        <Divider height={"1px"} width={"290px"} />
+        <Text fontSize={14}>Locker number : A000</Text>
+        <Text fontSize={14}>สถานะการจอง : pending</Text>
+      </Box>
+    </HStack>
   );
 };
 
