@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -21,6 +21,7 @@ import { useBreakpointValue } from "@chakra-ui/react";
 const Locker = () => {
   const searchParams = useSearchParams();
   const selectedZone = searchParams.get("selectedZone");
+  const selectedDate = searchParams.get("selectedDate");
 
   const totalRowsDesktop = 6;
   const totalColsDesktop = 12;
@@ -42,6 +43,12 @@ const Locker = () => {
 
   // State for tracking the current position
   const [currentPosition, setCurrentPosition] = useState(0);
+  const [currentLocker, setCurrentLocker] = useState(`${selectedZone}00`);
+
+  useEffect(() => {
+    setCurrentLocker(`${selectedZone}00`);
+  }, [selectedZone])
+  
 
   const renderCircularButtons = (): JSX.Element[] => {
     const buttons: JSX.Element[] = [];
@@ -58,6 +65,7 @@ const Locker = () => {
               key={`${row}-${col}`}
               label={label}
               isDisabled={isDisabled}
+              onClick={() => setCurrentLocker(label)}
             />
           );
         }
@@ -208,7 +216,7 @@ const Locker = () => {
             <Text fontSize={14}>MHMK ชั้น 2</Text>
           </Box>
           <Divider height={"1px"} width={"290px"} />
-          <Text fontSize={14}>Locker number : A000</Text>
+          <Text fontSize={14}>Locker number : {currentLocker}</Text>
           <Text fontSize={14}>สถานะการจอง : pending</Text>
         </Box>
         <Box
@@ -259,7 +267,7 @@ const Locker = () => {
             border={"1px solid"}
             padding={"10px"}
           >
-            <Text>3 APRIL 2022 - 5 APRIL 2022</Text>
+            <Text>{selectedDate}</Text>
           </Box>
         </Box>
         <Button

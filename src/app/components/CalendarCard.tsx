@@ -18,14 +18,18 @@ const CalendarCard: React.FC<CalendarCardProps> = ({ month, selectedDates, onSel
   );
 
   const isDateInRange = (date: Date) => {
-    if (selectedDates.length === 2) {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+  if (selectedDates.length === 2) {
       return date >= selectedDates[0] && date <= selectedDates[1];
     }
+
     return false;
   };
 
   return (
-    <Box boxShadow="md" p={2} borderRadius="md" maxW="sm" display={"flex"} flexShrink={"0"}> {/* Adjust maxW here */}
+    <Box boxShadow="md" p={2} borderRadius="md" maxW="sm" display={"flex"} flexShrink={"0"}>
       <VStack spacing={1} align="center">
         <Text fontSize="md" fontWeight="bold">
           {month.toLocaleDateString("en-US", { month: "short", year: "numeric" })}
@@ -43,11 +47,12 @@ const CalendarCard: React.FC<CalendarCardProps> = ({ month, selectedDates, onSel
               {day ? (
                 <Button
                   onClick={() => onSelectDate(day)}
-                  bg={isDateInRange(day) ? "#F7CF47" : selectedDates.includes(day) ? "#F7CF20" : undefined}
-                  color={selectedDates.includes(day) ? "white" : undefined}
-                  _hover={{ bg: "#F7CF30" }}
+                  bg={isDateInRange(day) ? "#F7CF47" : undefined}
+                  color={isDateInRange(day) ? "white" : undefined}
+                  _hover={isDateInRange(day) ? { bg: "#F7CF30" } : undefined}
                   w="100%"
                   fontSize="sm"
+                  isDisabled={day < new Date()}
                 >
                   {day.getDate()}
                 </Button>

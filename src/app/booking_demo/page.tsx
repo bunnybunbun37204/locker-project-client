@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   VStack,
@@ -17,16 +17,40 @@ import CalendarContainer from "../components/CalendarContainer";
 import ZoneCard from "../components/ZoneCard";
 
 const formatDate = (date: Date): string => {
-  return date.toISOString().split("T")[0];
+  
+  return date.toDateString();
 };
 
 const Booking: React.FC = () => {
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  const [selectedDates, setSelectedDates] = useState<Date[]>([new Date()]);
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [visibleZoneIndex, setVisibleZoneIndex] = useState(0);
 
+  useEffect(() => {
+    setSelectedDates([new Date()]);
+  }, [])
+  
+
   const handleSelectDate = (date: Date) => {
-    setSelectedDates((prevDates) => [...prevDates, date]);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    // If the clicked date is before the current date, do nothing
+    if (date < currentDate) {
+      return;
+    }
+    console.log(selectedDates[0]);
+
+    // Update the selected dates based on the clicked date
+    setSelectedDates((prevDates) => {
+      if (prevDates.length === 1) {
+        // If only one date is selected, select the new date
+        return [prevDates[0], date];
+      } else {
+        // If two dates are already selected, reset to the new date
+        return [date];
+      }
+    });
   };
 
   const handleSelectZone = (zone: string) => {
@@ -38,9 +62,7 @@ const Booking: React.FC = () => {
   };
 
   const handlePrevZone = () => {
-    setVisibleZoneIndex(
-      (prevIndex) => (prevIndex - 1 + zones.length) % zones.length
-    );
+    setVisibleZoneIndex((prevIndex) => (prevIndex - 1 + zones.length) % zones.length);
   };
 
   const zones = ["A", "B", "C"];
