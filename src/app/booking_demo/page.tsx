@@ -149,7 +149,7 @@ const Booking: React.FC = () => {
         <HStack spacing={4}>
           {selectedDates.map((date, index) => (
             <React.Fragment key={index}>
-              <Text>{formatDate(date)}</Text>
+              <Text fontSize={"14px"}>{formatDate(date)}</Text>
               {index < 1 && <ArrowForword width={15} />}
             </React.Fragment>
           ))}
