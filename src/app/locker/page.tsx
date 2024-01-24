@@ -90,7 +90,7 @@ const Locker = () => {
   };
 
   return (
-    <HStack spacing={4} display={"flex"} flexWrap={"wrap"}>
+    <HStack spacing={4} display={"flex"} flexWrap={"wrap"} marginLeft={"5%"}>
       <VStack marginTop={10} alignItems={"start"}>
         <Container
           display={"flex"}
@@ -152,7 +152,6 @@ const Locker = () => {
                 transform="translateY(-50%)"
                 background={"blackAlpha.800"}
                 color={"white"}
-                
               />
             )}
             {currentPosition == 0 && <Box marginRight={10}></Box>}
@@ -176,7 +175,7 @@ const Locker = () => {
           </HStack>
           <Button
             background={"blackAlpha.800"}
-            width={{ base: 120, md: 348 }}
+            width={{ base: 240, md: 348 }}
             alignItems={"center"}
             color={"white"}
             marginTop={5}
@@ -186,31 +185,95 @@ const Locker = () => {
           </Button>
         </Container>
       </VStack>
-      <Box
-        display={"flex"}
-        borderRadius={33}
-        marginLeft={"5%"}
-        border={"0.5px solid"}
-        width={332}
-        alignItems={"flex-start"}
-        gap={"10px"}
-        padding={"0px 24px 12px 20px"}
-        flexDirection={"column"}
-      >
+      <VStack spacing={2} marginLeft={"5%"} marginTop={"5%"}>
         <Box
           display={"flex"}
-          width={224}
-          height={51}
-          alignItems={"flex-end"}
+          borderRadius={33}
+          marginLeft={"5%"}
+          border={"0.5px solid"}
+          width={332}
+          alignItems={"flex-start"}
           gap={"10px"}
+          padding={"0px 24px 12px 20px"}
+          flexDirection={"column"}
         >
-          <Text fontSize={30}>ZONE {selectedZone}</Text>
-          <Text fontSize={14}>MHMK ชั้น 2</Text>
+          <Box
+            display={"flex"}
+            width={224}
+            height={51}
+            alignItems={"flex-end"}
+            gap={"10px"}
+          >
+            <Text fontSize={30}>ZONE {selectedZone}</Text>
+            <Text fontSize={14}>MHMK ชั้น 2</Text>
+          </Box>
+          <Divider height={"1px"} width={"290px"} />
+          <Text fontSize={14}>Locker number : A000</Text>
+          <Text fontSize={14}>สถานะการจอง : pending</Text>
         </Box>
-        <Divider height={"1px"} width={"290px"} />
-        <Text fontSize={14}>Locker number : A000</Text>
-        <Text fontSize={14}>สถานะการจอง : pending</Text>
-      </Box>
+        <Box
+          display={"flex"}
+          borderRadius={33}
+          marginLeft={"5%"}
+          border={"0.5px solid"}
+          width={332}
+          alignItems={"center"}
+          gap={"15px"}
+          padding={"012px 47px"}
+          flexDirection={"column"}
+        >
+          <Box
+            display={"flex"}
+            padding={"0px 10px"}
+            flexDirection={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            gap={"8px"}
+          >
+            <Text fontSize={20}>Remaining time</Text>
+            <Divider
+              width={157}
+              height={0}
+              borderColor="black"
+              borderWidth="1px"
+            />
+            <Text fontSize={12}>DAY</Text>
+            <Box
+              display={"flex"}
+              padding={"10px"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={"10px"}
+              background={"yellow.300"}
+              borderRadius={5}
+              border={"0.2px solid"}
+            >
+              <Text fontSize={35}>00</Text>
+            </Box>
+          </Box>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            gap={"2px"}
+            borderRadius={10}
+            border={"1px solid"}
+            padding={"10px"}
+          >
+            <Text>3 APRIL 2022 - 5 APRIL 2022</Text>
+          </Box>
+        </Box>
+        <Button
+          background={"blackAlpha.800"}
+          width={{ base: 240, md: 348 }}
+          alignItems={"center"}
+          color={"white"}
+          isDisabled={true}
+          borderRadius={17}
+          marginTop={4}
+        >
+          ยกเลิกการจอง
+        </Button>
+      </VStack>
     </HStack>
   );
 };
