@@ -3,7 +3,7 @@ import { GrayBall, YellowBall } from "./Logo";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const ZoneCard: React.FC<{ label: string, date: Date[], zone: string }> = ({ label, date , zone}) => {
+const ZoneCard: React.FC<{ label: string, date: string, zone: string }> = ({ label, date , zone}) => {
     const [isHovered, setHovered] = useState(false);
     const router = useRouter();
 

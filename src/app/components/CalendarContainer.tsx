@@ -37,7 +37,7 @@ const CalendarContainer: React.FC<CalendarContainerProps> = ({ selectedDates, on
           <CalendarCard month={currentMonth} selectedDates={selectedDates} onSelectDate={onSelectDate} />
         ) : (
           <HStack spacing={4}>
-            {[0, 1, 2].map((offset) => (
+            {[0, 1].map((offset) => (
               <CalendarCard
                 key={offset}
                 month={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + offset, 1)}

@@ -21,6 +21,16 @@ const formatDate = (date: Date): string => {
   return date.toDateString();
 };
 
+const formatDates = (dates: Date[]): string => {
+  
+  let result = "";
+  for (let i = 0; i < dates.length; i++) {
+    result += dates[i].toDateString() + " - ";
+  }
+  return result.trim();
+};
+
+
 const Booking: React.FC = () => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([new Date()]);
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
@@ -205,7 +215,7 @@ const Booking: React.FC = () => {
         </HStack>
         <HStack display={"flex"} flexWrap={"wrap"}>
           {zones.map((label, index) => (
-            <ZoneCard date={selectedDates} key={index} label={label} zone={label}/>
+            <ZoneCard date={formatDates(selectedDates)} key={index} label={label} zone={label}/>
           ))}
         </HStack>
       </Container>
