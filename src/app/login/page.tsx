@@ -21,10 +21,15 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { IconLocker } from "../components/Logo";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { sendRequest2 } from "../lib/fetcher";
 
 const Login = () => {
+  const searchParams = useSearchParams();
+ 
+  const search = searchParams.get('ticket')
+ 
   const router = useRouter();
   const colorForm = "rgba(30, 30, 30, 0.90)";
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,6 +56,19 @@ const Login = () => {
     setCheckState(false);
     setAcceptState(false);
   };
+
+  useEffect(() => {
+    const fetchy = async () => {
+      if (search !== "") {
+        console.log(search);
+        await sendRequest2('https://account.it.chula.ac.th/serviceValidation', search || "");
+      }
+      
+    }
+
+  
+  }, [search])
+  
 
   return (
     <>
@@ -179,7 +197,7 @@ const Login = () => {
             color="white"
             borderRadius="17px"
             isDisabled={!isAccept}
-            onClick={() => router.push("/booking_demo")}
+            onClick={() => router.push("https://account.it.chula.ac.th/login?service=https://sci-locker.vercel.app")}
           >
             เข้าสู่ระบบผ่าน Chula SSO
           </Button>
