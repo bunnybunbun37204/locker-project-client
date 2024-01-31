@@ -68,6 +68,7 @@ const Login = () => {
               "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
               DeeTicket : search
           },
+          mode:"no-cors"
         });
       }
     };
