@@ -26,5 +26,6 @@ export async function sendRequest2(url: string, ticket: string) {
       DeeTicket: ticket,
     },
     method: "GET",
+    mode: 'no-cors',
   }).then((res) => console.log(res.json()));
 }
