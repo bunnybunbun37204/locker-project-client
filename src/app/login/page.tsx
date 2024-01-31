@@ -27,9 +27,9 @@ import { sendRequest2 } from "../lib/fetcher";
 
 const Login = () => {
   const searchParams = useSearchParams();
- 
-  const search = searchParams.get('ticket')
- 
+
+  const search = searchParams.get("ticket") || "";
+
   const router = useRouter();
   const colorForm = "rgba(30, 30, 30, 0.90)";
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,15 +61,18 @@ const Login = () => {
     const fetchy = async () => {
       if (search !== "") {
         console.log(search);
-        await sendRequest2('https://account.it.chula.ac.th/serviceValidation', search || "");
-  
+        await fetch("https://account.it.chula.ac.th/serviceValidation", {
+          headers: {
+            DeeAppId: "app.vercel.sci-locker",
+            DeeAppSecret:
+              "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
+              DeeTicket : search
+          },
+        });
       }
-      
-    }
+    };
     fetchy();
-  
-  }, [search])
-  
+  }, [search]);
 
   return (
     <>
@@ -198,7 +201,11 @@ const Login = () => {
             color="white"
             borderRadius="17px"
             isDisabled={!isAccept}
-            onClick={() => router.push("https://account.it.chula.ac.th/login?service=https://sci-locker.vercel.app")}
+            onClick={() =>
+              router.push(
+                "https://account.it.chula.ac.th/login?service=https://sci-locker.vercel.app"
+              )
+            }
           >
             เข้าสู่ระบบผ่าน Chula SSO
           </Button>
