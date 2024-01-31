@@ -65,7 +65,7 @@ const Login = () => {
       }
       
     }
-
+    fetchy();
   
   }, [search])
   
