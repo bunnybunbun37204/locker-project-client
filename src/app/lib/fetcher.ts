@@ -15,7 +15,7 @@ export async function sendRequest(
 }
 
 export async function sendRequest2(url: string, ticket: string) {
-  console.log("ARG");
+  console.log(ticket);
 
   return fetch(url, {
     headers: {
@@ -26,6 +26,8 @@ export async function sendRequest2(url: string, ticket: string) {
       DeeTicket: ticket,
     },
     method: "GET",
-    mode: 'no-cors',
-  }).then((res) => res.json()).catch((err) => console.log(err));
+    mode: "no-cors",
+  })
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
 }
