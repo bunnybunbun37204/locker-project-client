@@ -28,6 +28,8 @@ export async function sendRequest2(url: string, ticket: string) {
     method: "GET",
     mode: "no-cors",
   })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    .then((res) => res.json().then((data) => {
+      console.log(data);
+    }))
+    .catch((err) => console.log("err"+err));
 }
