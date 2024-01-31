@@ -36,6 +36,7 @@ const Login = () => {
   const [isCheck, setCheckState] = useState(false);
   const [isOpens, setIsOpens] = useState(false);
   const [isAccept, setAcceptState] = useState(false);
+  const [data, setData] = useState("");
 
   const toggleCheckBox = () => {
     console.log(isCheck);
@@ -58,21 +59,26 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const fetchy = async () => {
-      if (search !== "") {
-        console.log(search);
-        await fetch("https://account.it.chula.ac.th/serviceValidation", {
-          headers: {
-            DeeAppId: "app.vercel.sci-locker",
-            DeeAppSecret:
-              "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
-              DeeTicket : search
-          },
-          mode:"no-cors"
+    if (search !== "") {
+      console.log(search);
+      fetch("https://account.it.chula.ac.th/serviceValidation", {
+        headers: {
+          DeeAppId: "app.vercel.sci-locker",
+          DeeAppSecret:
+            "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
+          DeeTicket: search,
+        },
+        mode: "no-cors",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setData(data);
+        })
+        .then((error) => {
+          console.error(error);
         });
-      }
-    };
-    fetchy();
+    }
   }, [search]);
 
   return (
