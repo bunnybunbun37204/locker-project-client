@@ -36,7 +36,6 @@ const Login = () => {
   const [isCheck, setCheckState] = useState(false);
   const [isOpens, setIsOpens] = useState(false);
   const [isAccept, setAcceptState] = useState(false);
-  const [data, setData] = useState("");
 
   const toggleCheckBox = () => {
     console.log(isCheck);
@@ -70,10 +69,11 @@ const Login = () => {
         },
         mode: "no-cors",
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setData(data);
+        .then((res) => {
+          console.log(res.json());
+          return res.json()
+        }).then((data) => {
+          console.log("DATA : ",data);
         })
         .then((error) => {
           console.error(error);
