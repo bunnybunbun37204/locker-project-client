@@ -63,19 +63,18 @@ const Login = () => {
       fetch("https://account.it.chula.ac.th/serviceValidation", {
         headers: {
           DeeAppId: "app.vercel.sci-locker",
-          DeeAppSecret:
-            "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
+          DeeAppSecret: "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
           DeeTicket: search,
         },
         mode: "no-cors",
       })
-        .then((res) => {
-          console.log(res.json());
-          return res.json()
-        }).then((data) => {
-          console.log("DATA : ",data);
+        .then(async (res) => {
+          console.log(await res.json());
+          // Handle the response here
+          const data = await res.json();
+          console.log("DATA : ", data);
         })
-        .then((error) => {
+        .catch((error) => {
           console.error(error);
         });
     }
