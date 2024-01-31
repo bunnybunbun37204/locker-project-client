@@ -61,7 +61,9 @@ const Login = () => {
     const fetchy = async () => {
       if (search !== "") {
         console.log(search);
-        await sendRequest2('https://account.it.chula.ac.th/serviceValidation', search || "");
+        const data = await sendRequest2('https://account.it.chula.ac.th/serviceValidation', search || "");
+        console.log(data);
+        
       }
       
     }

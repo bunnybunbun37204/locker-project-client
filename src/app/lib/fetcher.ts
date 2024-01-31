@@ -27,5 +27,5 @@ export async function sendRequest2(url: string, ticket: string) {
     },
     method: "GET",
     mode: 'no-cors',
-  }).then((res) => console.log(res.json()));
+  }).then((res) => res.json()).catch((err) => console.log(err));
 }
