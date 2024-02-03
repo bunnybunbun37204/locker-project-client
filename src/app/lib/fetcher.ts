@@ -39,7 +39,7 @@ export const serviceValidation = async (
   ticket: string
 ): Promise<string | null> => {
   try {
-    const url = `https://locker-vidya-api.netlify.app/.netlify/functions/api/locker/login/${ticket}`;
+    const url = `https://sci-locker.vercel.app/api/chulasso/${ticket}`;
 
     const response = await fetch(url, {
       mode:'no-cors'
