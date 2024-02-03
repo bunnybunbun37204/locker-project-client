@@ -46,7 +46,8 @@ export const serviceValidation = async (ticket: string): Promise<string | null> 
       },
       mode : 'no-cors'
     });
-
+    console.log("finish post");
+    
     if (response.ok) {
       console.log("OK");
       
