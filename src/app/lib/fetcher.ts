@@ -49,7 +49,7 @@ export const serviceValidation = async (
     if (response.ok) {
       console.log("OK");
 
-      const jsonResponse = await response.text();
+      const jsonResponse = await response.json();
       return jsonResponse;
     } else {
       console.log("ERROR");

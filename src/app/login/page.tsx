@@ -59,7 +59,9 @@ const Login = () => {
 
   useEffect(() => {
     const valid = async (search: string) => {
-      await serviceValidation(search);
+      const result = await serviceValidation(search);
+      console.log(result);
+      
     };
     if (search !== "") {
       valid(search);
