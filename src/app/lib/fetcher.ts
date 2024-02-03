@@ -19,41 +19,47 @@ export async function sendRequest2(url: string, ticket: string) {
 
   return fetch(url, {
     headers: {
-      "DeeAppId": "app.vercel.sci-locker",
-      "DeeAppSecret":
+      DeeAppId: "app.vercel.sci-locker",
+      DeeAppSecret:
         "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
-      "DeeTicket": ticket,
+      DeeTicket: ticket,
     },
     method: "GET",
     mode: "no-cors",
   })
-    .then((res) => res.json().then((data) => {
-      console.log(data);
-    }))
-    .catch((err) => console.log("err"+err));
+    .then((res) =>
+      res.json().then((data) => {
+        console.log(data);
+      })
+    )
+    .catch((err) => console.log("err" + err));
 }
 
-export const serviceValidation = async (ticket: string): Promise<string | null> => {
+export const serviceValidation = async (
+  ticket: string
+): Promise<string | null> => {
   try {
     const url = `https://locker-vidya-api.netlify.app/.netlify/functions/api/locker/login?ticket=${ticket}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      mode:'no-cors'
+    });
     console.log("finish get");
-    
+
     if (response.ok) {
       console.log("OK");
-      
+
       const jsonResponse = await response.text();
       return jsonResponse;
     } else {
       console.log("ERROR");
-      
+
       // Handle non-OK response (e.g., 404, 500, etc.)
       console.error(`Error: ${response.status} - ${response.statusText}`);
       return null;
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return null;
   }
 };
