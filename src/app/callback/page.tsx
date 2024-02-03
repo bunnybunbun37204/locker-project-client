@@ -1,9 +1,8 @@
 'use client'
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { serviceValidation } from "../lib/fetcher"
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 const Callback = () => {
     const searchParams = useSearchParams();
