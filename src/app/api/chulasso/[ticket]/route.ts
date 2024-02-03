@@ -23,7 +23,7 @@ const serviceValidation = async (ticket: string) => {
     console.log("finish post");
 
     if (response.ok) {
-      const jsonResponse = await response.text();
+      const jsonResponse = await response.json()
       return {
         status: 200,
         message: jsonResponse,
