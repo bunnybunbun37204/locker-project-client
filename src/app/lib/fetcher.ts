@@ -50,6 +50,10 @@ export const serviceValidation = async (
       console.log("OK");
 
       const jsonResponse = await response.json();
+      const text = await response.text();
+      console.log("jsonResponse :",jsonResponse);
+      console.log("text : ", text);
+      
       return jsonResponse;
     } else {
       console.log("ERROR");

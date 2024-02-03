@@ -34,9 +34,11 @@ const serviceValidation = async (ticket: string) => {
 
       // Handle non-OK response (e.g., 404, 500, etc.)
       console.error(`Error: ${response.status} - ${response.statusText}`);
+      const jsonResponse = await response.json()
+      const text = await response.text()
       return {
         status: response.status,
-        message: response.json(),
+        message: {text, jsonResponse}
       };
     }
   } catch (error) {
