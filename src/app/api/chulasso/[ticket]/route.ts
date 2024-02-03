@@ -49,5 +49,10 @@ export async function GET(request: Request) {
   const ticket = request.url.slice(request.url.lastIndexOf("/") + 1);
   const {status, message} = await serviceValidation(ticket);
   console.log("Message : ",message);
-  return NextResponse.json(message);
+  if (message) {
+    return NextResponse.redirect('https://sci-locker.vercel.app/booking_demo');
+  }
+  else {
+    return NextResponse.redirect('https://sci-locker.vercel.app/login');
+  }
 }
