@@ -32,3 +32,30 @@ export async function sendRequest2(url: string, ticket: string) {
     }))
     .catch((err) => console.log("err"+err));
 }
+
+export const serviceValidation = async (ticket: string): Promise<string | null> => {
+  try {
+    const url = "https://account.it.chula.ac.th/serviceValidation";
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'DeeAppId': 'app.vercel.sci-locker',
+        'DeeAppSecret': "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
+        'DeeTicket': ticket,
+      },
+    });
+
+    if (response.ok) {
+      const jsonResponse = await response.text();
+      return jsonResponse;
+    } else {
+      // Handle non-OK response (e.g., 404, 500, etc.)
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
