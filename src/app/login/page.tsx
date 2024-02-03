@@ -186,7 +186,7 @@ const Login = () => {
             isDisabled={!isAccept}
             onClick={() =>
               router.push(
-                "https://account.it.chula.ac.th/login?serviceName=LOCKER-SUCU?service=https://sci-locker.vercel.app/callback"
+                "https://account.it.chula.ac.th/login?serviceName=LOCKER-SUCU&service=https://sci-locker.vercel.app/callback"
               )
             }
           >
