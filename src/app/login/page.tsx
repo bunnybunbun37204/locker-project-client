@@ -57,17 +57,6 @@ const Login = () => {
     setAcceptState(false);
   };
 
-  useEffect(() => {
-    const valid = async (search: string) => {
-      const result = await serviceValidation(search);
-      console.log(result);
-      
-    };
-    if (search !== "") {
-      valid(search);
-    }
-  }, [search]);
-
   return (
     <>
       <Container minW="100%" h="100vh" position="relative">
@@ -197,7 +186,7 @@ const Login = () => {
             isDisabled={!isAccept}
             onClick={() =>
               router.push(
-                "https://account.it.chula.ac.th/login?service=https://sci-locker.vercel.app"
+                "https://account.it.chula.ac.th/login?service=https://sci-locker.vercel.app/callback"
               )
             }
           >
