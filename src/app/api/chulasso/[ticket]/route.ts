@@ -24,9 +24,10 @@ const serviceValidation = async (ticket: string) => {
 
     if (response.ok) {
       const jsonResponse = await response.json()
+      const text = await response.text()
       return {
         status: 200,
-        message: jsonResponse,
+        message: {jsonResponse, text},
       };
     } else {
       console.log("ERROR");
@@ -49,5 +50,6 @@ const serviceValidation = async (ticket: string) => {
 export async function GET(request: Request) {
   const ticket = request.url.slice(request.url.lastIndexOf("/") + 1);
   const {status, message} = await serviceValidation(ticket);
+  console.log("Message",message)
   return NextResponse.json(message);
 }
