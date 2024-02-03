@@ -36,7 +36,7 @@ const serviceValidation = async (ticket: string) => {
       console.error(`Error: ${response.status} - ${response.statusText}`);
       return {
         status: response.status,
-        message: response.statusText,
+        message: response.json(),
       };
     }
   } catch (error) {
@@ -50,6 +50,6 @@ const serviceValidation = async (ticket: string) => {
 export async function GET(request: Request) {
   const ticket = request.url.slice(request.url.lastIndexOf("/") + 1);
   const {status, message} = await serviceValidation(ticket);
-  console.log("Message",message)
+  console.log("Message : ",message)
   return NextResponse.json(message);
 }
