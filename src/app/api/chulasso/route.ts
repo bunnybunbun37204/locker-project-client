@@ -1,8 +1,10 @@
 "use server";
 
 import { NextResponse } from "next/server";
+import { cookies } from 'next/headers'
 
-const secret = "05fa61aa574560830e5f460b33c55c377953d4142c2d39185b3f60c23d916dba45405e61fdc5b8a48338128e276aa0b9a4d5f1aaabb6274e0299dd8a42a9275c"
+const ID = process.env.APP_ID || "";
+const SECRET = process.env.APP_SECRET || "";
 
 const serviceValidation = async (ticket: string) => {
   try {
@@ -11,8 +13,8 @@ const serviceValidation = async (ticket: string) => {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "DeeAppId": "app.web.vote-sucu",
-        "DeeAppSecret":secret,
+        "DeeAppId": ID,
+        "DeeAppSecret":SECRET,
         "DeeTicket": ticket,
         'Access-Control-Allow-Origin': "*",
         'Access-Control-Allow-Headers': "*",
@@ -46,11 +48,12 @@ const serviceValidation = async (ticket: string) => {
 };
 
 export async function GET(request: Request) {
+  const cookieStore = cookies();
   try {
     // Extract the ticket from the URL parameters
     const url = new URL(request.url);
-    const ticket = url.searchParams.get("ticket");
-    console.log("ticket : ",ticket);
+    const ticket = url.searchParams.get("ticket") || "";
+    cookieStore.set('ticket', ticket);
     
 
     if (!ticket) {
@@ -60,17 +63,19 @@ export async function GET(request: Request) {
 
     // Use the extracted ticket in your logic or validation
     const { status, message } = await serviceValidation(ticket);
-    console.log("Message: ", message);
-    
 
-    // Customize your response based on the validation result
-    if (message) {
-      return NextResponse.redirect('https://sci-locker.vercel.app/booking_demo');
-    } else {
-      return NextResponse.redirect('https://sci-locker.vercel.app/login');
+    if (status === 200) {
+      const user_id = message.username;
+      const falculty = message.gecos.split(", ")[0];
+      const email = message.email;
+      cookieStore.set('id', user_id);
+      cookieStore.set('falculty', falculty);
+      cookieStore.set('email',email);
     }
+        
+    return NextResponse.json({message});
   } catch (error) {
     // Handle any errors
-    return new Response("Internal Server Error", { status: 500 });
+    return NextResponse.json("Error 500");
   }
 }

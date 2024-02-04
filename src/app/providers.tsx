@@ -3,7 +3,6 @@
 // app/providers.tsx
 import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider, extendTheme, theme } from "@chakra-ui/react";
-import { CookiesProvider } from "react-cookie";
 import { Global, css } from "@emotion/react"; // Import Global and css from @emotion/react
 import "@fontsource/kanit/thai-300.css"; // Import the Kanit font
 import "@fontsource/inter/latin-600.css"; // Import the Inter font
@@ -32,13 +31,11 @@ const GlobalStyles = () => (
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <CookiesProvider>
       <CacheProvider>
         <ChakraProvider theme={customTheme}>
           <GlobalStyles /> {/* Add the GlobalStyles component here */}
           {children}
         </ChakraProvider>
       </CacheProvider>
-    </CookiesProvider>
   );
 }
