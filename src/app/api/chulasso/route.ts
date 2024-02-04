@@ -49,13 +49,13 @@ const serviceValidation = async (ticket: string) => {
 export async function GET(request: Request) {
   try {
     // Extract the ticket from the URL parameters
-    const url = new URL(request.url);
-    const ticket = url.searchParams.get("ticket") || "";    
+    // const url = new URL(request.url);
+    // const ticket = url.searchParams.get("ticket") || "";    
 
-    if (!ticket) {
-      // Handle the case where the ticket parameter is missing
-      return new Response("Ticket parameter is missing", { status: 400 });
-    }
+    // if (!ticket) {
+    //   // Handle the case where the ticket parameter is missing
+    //   return new Response("Ticket parameter is missing", { status: 400 });
+    // }
 
     // Use the extracted ticket in your logic or validation
     //const { status, message } = await serviceValidation(ticket);
