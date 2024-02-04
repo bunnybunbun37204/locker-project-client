@@ -1,9 +1,10 @@
 "use server";
 
+import { setCookie } from "cookies-next";
 import { NextResponse } from "next/server";
 
-const ID = "app.web.vote-sucu"
-const SECRET = "05fa61aa574560830e5f460b33c55c377953d4142c2d39185b3f60c23d916dba45405e61fdc5b8a48338128e276aa0b9a4d5f1aaabb6274e0299dd8a42a9275c"
+const ID = process.env.APP_ID || "";
+const SECRET = process.env.APP_SECRET || "";
 
 const serviceValidation = async (ticket: string) => {
 
@@ -57,17 +58,18 @@ export async function GET(request: Request) {
     }
 
     // Use the extracted ticket in your logic or validation
-    //const { status, message } = await serviceValidation(ticket);
+    const { status, message } = await serviceValidation(ticket);
 
-    // if (status === 200) {
-    //   const user_id = message.username;
-    //   const falculty = message.gecos.split(", ")[1].trim();
-    //   const email = message.email;
-    //   console.log(falculty);
-      
-    // }
+    if (status === 200) {
+      const user_id = message.username;
+      const falculty = message.gecos.split(", ")[1].trim();
+      const email = message.email;
+      setCookie('id', user_id);
+      setCookie('falculty', falculty);
+      setCookie('email', email);
+    }
         
-    return NextResponse.json(ticket);
+    return NextResponse.json(message);
   } catch (error) {
     // Handle any errors
     return NextResponse.json("Error 500");
