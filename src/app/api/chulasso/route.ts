@@ -1,7 +1,7 @@
 "use server";
 
+import { setCookie } from "cookies-next";
 import { NextResponse } from "next/server";
-import { cookies } from 'next/headers'
 
 const ID = process.env.APP_ID || "";
 const SECRET = process.env.APP_SECRET || "";
@@ -48,12 +48,11 @@ const serviceValidation = async (ticket: string) => {
 };
 
 export async function GET(request: Request) {
-  const cookieStore = cookies();
   try {
     // Extract the ticket from the URL parameters
     const url = new URL(request.url);
     const ticket = url.searchParams.get("ticket") || "";
-    cookieStore.set('ticket', ticket);
+    setCookie('ticket', ticket);
     
 
     if (!ticket) {
@@ -68,9 +67,9 @@ export async function GET(request: Request) {
       const user_id = message.username;
       const falculty = message.gecos.split(", ")[0];
       const email = message.email;
-      cookieStore.set('id', user_id);
-      cookieStore.set('falculty', falculty);
-      cookieStore.set('email',email);
+      setCookie('id', user_id);
+      setCookie('faculty', falculty);
+      setCookie('email', email);
     }
         
     return NextResponse.json({message});

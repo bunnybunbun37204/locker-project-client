@@ -16,6 +16,7 @@ import { ArrowForword, GrayBall, YellowBall } from "../components/Logo";
 import CalendarContainer from "../components/CalendarContainer";
 import ZoneCard from "../components/ZoneCard";
 import { cookies } from "next/headers";
+import { getCookie, getCookies } from "cookies-next";
 
 const formatDate = (date: Date): string => {
   
@@ -36,13 +37,15 @@ const Booking: React.FC = () => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([new Date()]);
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [visibleZoneIndex, setVisibleZoneIndex] = useState(0);
-  const cookieStore = cookies();
 
   useEffect(() => {
+    const a = getCookies()
+    const b = getCookie('id');
     setSelectedDates([new Date()]);
-    console.log(cookieStore.getAll());
+    console.log(a);
+    console.log(b);
     
-  }, [cookieStore])
+  }, [])
   
 
   const handleSelectDate = (date: Date) => {
