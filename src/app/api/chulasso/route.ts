@@ -7,6 +7,8 @@ const ID = process.env.APP_ID || "";
 const SECRET = process.env.APP_SECRET || "";
 
 const serviceValidation = async (ticket: string) => {
+  console.log(ID);
+  console.log(SECRET)
   try {
     const url = "https://account.it.chula.ac.th/serviceValidation";
 
@@ -65,14 +67,16 @@ export async function GET(request: Request) {
 
     if (status === 200) {
       const user_id = message.username;
-      const falculty = message.gecos.split(", ")[0];
+      const falculty = message.gecos.split(", ")[1].trim();
       const email = message.email;
+      console.log(falculty);
+      
       setCookie('id', user_id);
       setCookie('faculty', falculty);
       setCookie('email', email);
     }
         
-    return NextResponse.json({message});
+    return NextResponse.json(message);
   } catch (error) {
     // Handle any errors
     return NextResponse.json("Error 500");
