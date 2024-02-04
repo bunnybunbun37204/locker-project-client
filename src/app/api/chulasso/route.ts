@@ -49,7 +49,7 @@ const serviceValidation = async (ticket: string) => {
 export async function GET(request: Request) {
   try {
     // Extract the ticket from the URL parameters
-    // const url = new URL(request.url);
+    const url = new URL(request.url);
     // const ticket = url.searchParams.get("ticket") || "";    
 
     // if (!ticket) {
@@ -68,7 +68,7 @@ export async function GET(request: Request) {
       
     // }
         
-    return NextResponse.json("message");
+    return NextResponse.json(url);
   } catch (error) {
     // Handle any errors
     return NextResponse.json("Error 500");
