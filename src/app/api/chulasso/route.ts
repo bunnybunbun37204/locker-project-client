@@ -1,13 +1,9 @@
 "use server";
 
-import { setCookie } from "cookies-next";
 import { NextResponse } from "next/server";
 
-// const ID = process.env.APP_ID || "";
-// const SECRET = process.env.APP_SECRET || "";
-
-const ID = 'app.web.vote-sucu';
-const SECRET = '05fa61aa574560830e5f460b33c55c377953d4142c2d39185b3f60c23d916dba45405e61fdc5b8a48338128e276aa0b9a4d5f1aaabb6274e0299dd8a42a9275c'
+const ID = process.env.APP_ID || "";
+const SECRET = process.env.APP_SECRET || "";
 
 const serviceValidation = async (ticket: string) => {
   console.log(ID);
@@ -56,9 +52,7 @@ export async function GET(request: Request) {
   try {
     // Extract the ticket from the URL parameters
     const url = new URL(request.url);
-    const ticket = url.searchParams.get("ticket") || "";
-    setCookie('ticket', ticket);
-    
+    const ticket = url.searchParams.get("ticket") || "";    
 
     if (!ticket) {
       // Handle the case where the ticket parameter is missing
@@ -74,9 +68,6 @@ export async function GET(request: Request) {
       const email = message.email;
       console.log(falculty);
       
-      setCookie('id', user_id);
-      setCookie('faculty', falculty);
-      setCookie('email', email);
     }
         
     return NextResponse.json(message);
