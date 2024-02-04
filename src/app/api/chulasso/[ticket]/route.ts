@@ -59,15 +59,6 @@ export async function GET(request: Request) {
 
     // Use the extracted ticket in your logic or validation
     const { status, message } = await serviceValidation(ticket);
-
-    if (status === 200) {
-      const user_id = message.username;
-      const falculty = message.gecos.split(", ")[1].trim();
-      const email = message.email;
-      setCookie('id', user_id);
-      setCookie('falculty', falculty);
-      setCookie('email', email);
-    }
         
     return NextResponse.json(message);
   } catch (error) {

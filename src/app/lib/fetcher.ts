@@ -1,3 +1,5 @@
+import { setCookie } from "cookies-next";
+
 export async function sendRequest(
   url: string,
   { arg }: { arg: { user_id: string; locker_id: string; isBooked: string } }
@@ -48,10 +50,18 @@ export const serviceValidation = async (
     if (response.ok) {
       console.log("OK");
 
-      const jsonResponse = await response.json();
-      console.log("jsonResponse :",jsonResponse);
+      const message = await response.json();
+
+    if (message) {
+      const user_id = message.username;
+      const falculty = message.gecos.split(", ")[1].trim();
+      const email = message.email;
+      setCookie('id', user_id);
+      setCookie('falculty', falculty);
+      setCookie('email', email);
+    }
       
-      return jsonResponse;
+      return message;
     } else {
       console.log("ERROR");
 
