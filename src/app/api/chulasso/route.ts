@@ -49,7 +49,7 @@ const serviceValidation = async (ticket: string) => {
 export async function GET(request: Request) {
   try {
     // Extract the ticket from the URL parameters
-    const url = new URL(request.url);
+    const url = request.url.search("ticket");
     // const ticket = url.searchParams.get("ticket") || "";    
 
     // if (!ticket) {
