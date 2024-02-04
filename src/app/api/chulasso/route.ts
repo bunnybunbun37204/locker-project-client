@@ -3,8 +3,11 @@
 import { setCookie } from "cookies-next";
 import { NextResponse } from "next/server";
 
-const ID = process.env.APP_ID || "";
-const SECRET = process.env.APP_SECRET || "";
+// const ID = process.env.APP_ID || "";
+// const SECRET = process.env.APP_SECRET || "";
+
+const ID = 'app.web.vote-sucu';
+const SECRET = '05fa61aa574560830e5f460b33c55c377953d4142c2d39185b3f60c23d916dba45405e61fdc5b8a48338128e276aa0b9a4d5f1aaabb6274e0299dd8a42a9275c'
 
 const serviceValidation = async (ticket: string) => {
   console.log(ID);
