@@ -13,7 +13,6 @@ const Callback = () => {
         const valid = async (search: string) => {
           const result = await serviceValidation(search);
           if (result) {
-            console.log(result);
             router.push('/booking_demo');
           }
           
