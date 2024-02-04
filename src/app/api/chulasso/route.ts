@@ -6,8 +6,7 @@ const ID = "app.web.vote-sucu"
 const SECRET = "05fa61aa574560830e5f460b33c55c377953d4142c2d39185b3f60c23d916dba45405e61fdc5b8a48338128e276aa0b9a4d5f1aaabb6274e0299dd8a42a9275c"
 
 const serviceValidation = async (ticket: string) => {
-  console.log(ID);
-  console.log(SECRET)
+
   try {
     const url = "https://account.it.chula.ac.th/serviceValidation";
 
@@ -33,7 +32,6 @@ const serviceValidation = async (ticket: string) => {
       console.log("ERROR");
 
       // Handle non-OK response (e.g., 404, 500, etc.)
-      console.error(`Error: ${response.status} - ${response.statusText}`);
       const jsonResponse = await response.json()
       return {
         status: response.status,
@@ -60,17 +58,17 @@ export async function GET(request: Request) {
     }
 
     // Use the extracted ticket in your logic or validation
-    const { status, message } = await serviceValidation(ticket);
+    //const { status, message } = await serviceValidation(ticket);
 
-    if (status === 200) {
-      const user_id = message.username;
-      const falculty = message.gecos.split(", ")[1].trim();
-      const email = message.email;
-      console.log(falculty);
+    // if (status === 200) {
+    //   const user_id = message.username;
+    //   const falculty = message.gecos.split(", ")[1].trim();
+    //   const email = message.email;
+    //   console.log(falculty);
       
-    }
+    // }
         
-    return NextResponse.json(message);
+    return NextResponse.json("message");
   } catch (error) {
     // Handle any errors
     return NextResponse.json("Error 500");
