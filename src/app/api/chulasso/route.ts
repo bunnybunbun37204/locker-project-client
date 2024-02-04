@@ -2,6 +2,8 @@
 
 import { NextResponse } from "next/server";
 
+const secret = "05fa61aa574560830e5f460b33c55c377953d4142c2d39185b3f60c23d916dba45405e61fdc5b8a48338128e276aa0b9a4d5f1aaabb6274e0299dd8a42a9275c"
+
 const serviceValidation = async (ticket: string) => {
   try {
     const url = "https://account.it.chula.ac.th/serviceValidation";
@@ -9,16 +11,14 @@ const serviceValidation = async (ticket: string) => {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "DeeAppId": "app.vercel.sci-locker",
-        "DeeAppSecret":
-          "fc42f10ca65ec5a314f3e989dc69a08dc26868814d399c283c5cdb1bce485265ee873fc939305b313df67b155dd29b0a2535c67030fb5fe9e9755007abceace5",
+        "DeeAppId": "app.web.vote-sucu",
+        "DeeAppSecret":secret,
         "DeeTicket": ticket,
         'Access-Control-Allow-Origin': "*",
         'Access-Control-Allow-Headers': "*",
         'Content-type': 'application/json',
       },
     });
-    console.log("finish post");
 
     if (response.ok) {
       const jsonResponse = await response.json()
