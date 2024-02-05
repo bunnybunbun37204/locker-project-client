@@ -23,9 +23,7 @@ const CallBackBooking = () => {
       // Handle the error state if needed
     }
 
-    if (data) {
-      console.log(data);
-      
+    if (data) {      
       localStorage.setItem('datajaa', JSON.stringify(data.message));
       router.push(`/locker?selectedDate=${selectedDate}&selectedZone=${selectedZone}`);
     }

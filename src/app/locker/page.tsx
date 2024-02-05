@@ -81,7 +81,7 @@ const Locker = () => {
     const date = selectedDate?.split("-") || ["", ""];
 
     await trigger({
-      user_email: "email",
+      user_email: email,
       locker_id: currentLocker,
       zone: selectedZone,
       isBooked: "UnAvailable",
@@ -98,12 +98,12 @@ const Locker = () => {
 
   const useUnSubmit = async () => {
     await trigger({
-      user_email: email,
+      user_email: " ",
       locker_id: locker_id,
-      zone: selectedZone,
+      zone: locker_id[0],
       isBooked: "Available",
-      borrowed_in: "",
-      borrowed_out: "",
+      borrowed_in: " ",
+      borrowed_out: " ",
     });
 
     setCookie("isBooked", false);
@@ -150,6 +150,7 @@ const Locker = () => {
               key={`${row}-${col}`}
               label={label.locker_number}
               isDisabled={isDisabled}
+              background={label.locker_number === currentLocker ? "blackAlpha.400" : "yellow.400"}
               onClick={() => setCurrentLocker(label.locker_number)}
             />
           );
