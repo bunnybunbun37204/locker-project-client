@@ -24,7 +24,7 @@ const ZoneCard: React.FC<{ label: string, date: string, zone: string }> = ({ lab
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={() =>              router.push(
-            `/locker?selectedDate=${date.toString()}&selectedZone=${zone}`
+            `/callbackBooking?selectedDate=${date.toString()}&selectedZone=${zone}`
           )}
       >
         <HStack spacing={170} marginLeft={15} marginRight={15}>

@@ -17,23 +17,29 @@ import CircularButton from "../components/CircularButton";
 import { GrayBall, YellowBall } from "../components/Logo";
 import { useSearchParams } from "next/navigation";
 import { useBreakpointValue } from "@chakra-ui/react";
+import { getData } from "../lib/fetcher";
+import useSWR from "swr";
+import { getCookie } from "cookies-next";
+
+interface Locker {
+  locker_number: string;
+  locker_status: string;
+  borrowed_in: Date;
+  borrowed_out: Date;
+  user_id: string;
+  user_email: string;
+}
 
 const Locker = () => {
   const searchParams = useSearchParams();
-  const selectedZone = searchParams.get("selectedZone");
+  const selectedZone = searchParams.get("selectedZone") || "A";
   const selectedDate = searchParams.get("selectedDate");
+  const [locker, setLocker] = useState<Locker[]>([]);
 
   const totalRowsDesktop = 6;
   const totalColsDesktop = 12;
   const totalRowsMobile = 6;
   const totalColsMobile = 6;
-
-  // Generate labelsArray
-  const labelsArray: string[] = [];
-  for (let i = 1; i <= 1001; i++) {
-    const label = `A${i.toString().padStart(3, "0")}`;
-    labelsArray.push(label);
-  }
 
   // Calculate total rows and columns based on breakpoint
   const totalRows =
@@ -47,6 +53,8 @@ const Locker = () => {
 
   useEffect(() => {
     setCurrentLocker(`${selectedZone}00`);
+    const cookie = localStorage.getItem('datajaa') || "";
+    setLocker(JSON.parse(cookie));
   }, [selectedZone])
   
 
@@ -57,15 +65,15 @@ const Locker = () => {
     for (let row = 0; row < totalRows; row++) {
       const rowButtons: JSX.Element[] = [];
       for (let col = 0; col < totalCols; col++) {
-        const label = labelsArray[index];
+        const label = locker[index]
         if (label) {
-          const isDisabled = false; // You can set your logic for disabled buttons here
+          const isDisabled = label.locker_status !== "Available"; // You can set your logic for disabled buttons here
           rowButtons.push(
             <CircularButton
               key={`${row}-${col}`}
-              label={label}
+              label={label.locker_number}
               isDisabled={isDisabled}
-              onClick={() => setCurrentLocker(label)}
+              onClick={() => setCurrentLocker(label.locker_number)}
             />
           );
         }
@@ -83,7 +91,7 @@ const Locker = () => {
 
   // Function to handle the "Next" button click
   const handleNextClick = () => {
-    const maxPosition = labelsArray.length - totalRows * totalCols;
+    const maxPosition =  locker.length - totalRows * totalCols;
     const nextPosition = Math.min(
       currentPosition + totalRows * totalCols,
       maxPosition
@@ -169,7 +177,7 @@ const Locker = () => {
               {renderCircularButtons()}
               {/* "Next" button */}
             </HStack>
-            {currentPosition < labelsArray.length - totalRows * totalCols && (
+            {currentPosition < locker.length - totalRows * totalCols && (
               <IconButton
                 aria-label="Next"
                 background={"blackAlpha.800"}

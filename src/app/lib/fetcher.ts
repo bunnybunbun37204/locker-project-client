@@ -16,6 +16,17 @@ export async function sendRequest(
   }).then((res) => res.json());
 }
 
+export async function sendGetDataReq(
+  url: string
+) {
+  return fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: 'no-cors'
+  }).then((res) => res.json());
+}
+
 export async function sendRequest2(url: string, ticket: string) {
   console.log(ticket);
 
@@ -39,7 +50,7 @@ export async function sendRequest2(url: string, ticket: string) {
 
 export const serviceValidation = async (
   ticket: string
-): Promise<string | null> => {
+) => {
   try {
     const url = `https://sci-locker.vercel.app/api/chulasso/${ticket}`;
 
@@ -69,6 +80,27 @@ export const serviceValidation = async (
       console.error(`Error: ${response.status} - ${response.statusText}`);
       return null;
     }
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+};
+
+
+export const getData = async (
+  zone: string
+) => {
+  try {
+    const url = `https://locker-vidya-api.netlify.app/.netlify/functions/api/locker/getData/A`;
+
+    const response = await fetch(url, {
+      mode:'no-cors'
+    });
+    if (response.ok) {
+      const message = await response.json();
+      return message;
+    }
+    return null;
   } catch (error) {
     console.error("Error:", error);
     return null;
