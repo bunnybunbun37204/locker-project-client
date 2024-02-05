@@ -15,12 +15,11 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import CircularButton from "../components/CircularButton";
 import { GrayBall, YellowBall } from "../components/Logo";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useBreakpointValue } from "@chakra-ui/react";
-import { getData } from "../lib/fetcher";
-import useSWR from "swr";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import useSWRMutation from "swr/mutation";
+import { useRouter } from "next/navigation";
 
 interface Locker {
   locker_number: string;
@@ -33,11 +32,13 @@ interface Locker {
 
 const Locker = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const selectedZone = searchParams.get("selectedZone") || "A";
   const selectedDate = searchParams.get("selectedDate");
   const [locker, setLocker] = useState<Locker[]>([]);
   const [email, setEmail] = useState("");
+  const [isBooked, setIsBooked] = useState(false);
+  const [locker_id, setLockerId] = useState("");
+  const router = useRouter();
 
   const totalRowsDesktop = 6;
   const totalColsDesktop = 12;
@@ -71,22 +72,46 @@ const Locker = () => {
     }).then((res) => res.json());
   }
 
-  const { trigger } = useSWRMutation('https://locker-vidya-api.netlify.app/.netlify/functions/api/locker/booked', sendRequest);
+  const { trigger } = useSWRMutation(
+    "https://locker-vidya-api.netlify.app/.netlify/functions/api/locker/booked",
+    sendRequest
+  );
 
-
-  const useOnSubmit = () => {
+  const useOnSubmit = async () => {
     const date = selectedDate?.split("-") || ["", ""];
 
-    trigger({
-      user_email : 'email',
+    await trigger({
+      user_email: "email",
       locker_id: currentLocker,
       zone: selectedZone,
       isBooked: "UnAvailable",
       borrowed_in: date[0].trim(),
       borrowed_out: date[1].trim(),
-    })
-    router.refresh();
-  }
+    });
+
+    setCookie("isBooked", true);
+    setCookie("locker_id", currentLocker);
+    router.push(
+      `/callbackBooking?selectedDate=${selectedDate}&selectedZone=${selectedZone}`
+    );
+  };
+
+  const useUnSubmit = async () => {
+    await trigger({
+      user_email: email,
+      locker_id: locker_id,
+      zone: selectedZone,
+      isBooked: "Available",
+      borrowed_in: "",
+      borrowed_out: "",
+    });
+
+    setCookie("isBooked", false);
+    setCookie("locker_id", "");
+    router.push(
+      `/callbackBooking?selectedDate=${selectedDate}&selectedZone=${selectedZone}`
+    );
+  };
 
   // Calculate total rows and columns based on breakpoint
   const totalRows =
@@ -101,9 +126,13 @@ const Locker = () => {
   useEffect(() => {
     setCurrentLocker(`${selectedZone}00`);
     const cookie = localStorage.getItem("datajaa") || "";
-    const email = getCookie('email') || "";
+    const isBook = getCookie("isBooked") || "false";
+    const locker_id = getCookie("locker_id") || "";
+    const email = getCookie("email") || "";
     setEmail(email);
+    setLockerId(locker_id);
     setLocker(JSON.parse(cookie));
+    setIsBooked(isBook === "true");
   }, [selectedZone]);
 
   const renderCircularButtons = (): JSX.Element[] => {
@@ -243,6 +272,7 @@ const Locker = () => {
             alignItems={"center"}
             color={"white"}
             marginTop={5}
+            isDisabled={isBooked}
             borderRadius={17}
             onClick={useOnSubmit}
           >
@@ -273,7 +303,12 @@ const Locker = () => {
             <Text fontSize={14}>MHMK ชั้น 2</Text>
           </Box>
           <Divider height={"1px"} width={"290px"} />
-          <Text fontSize={14}>Locker number : {currentLocker}</Text>
+          {locker_id !== "" && (
+            <Text fontSize={14}>Locker number : {locker_id}</Text>
+          )}
+          {locker_id === "" && (
+            <Text fontSize={14}>Locker number : {currentLocker}</Text>
+          )}
           <Text fontSize={14}>สถานะการจอง : pending</Text>
         </Box>
         <Box
@@ -332,9 +367,10 @@ const Locker = () => {
           width={{ base: 240, md: 348 }}
           alignItems={"center"}
           color={"white"}
-          isDisabled={true}
+          isDisabled={!isBooked}
           borderRadius={17}
           marginTop={4}
+          onClick={useUnSubmit}
         >
           ยกเลิกการจอง
         </Button>
