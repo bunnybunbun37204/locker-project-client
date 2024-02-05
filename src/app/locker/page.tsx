@@ -38,6 +38,7 @@ const Locker = () => {
   const [email, setEmail] = useState("");
   const [isBooked, setIsBooked] = useState(false);
   const [locker_id, setLockerId] = useState("");
+  const [out_dated, setOutDate] = useState(0);
   const router = useRouter();
 
   const totalRowsDesktop = 6;
@@ -91,6 +92,8 @@ const Locker = () => {
 
     setCookie("isBooked", true);
     setCookie("locker_id", currentLocker);
+    setCookie("out_dated", date[1].trim());
+
     router.push(
       `/callbackBooking?selectedDate=${selectedDate}&selectedZone=${selectedZone}`
     );
@@ -128,10 +131,17 @@ const Locker = () => {
     const cookie = localStorage.getItem("datajaa") || "";
     const isBook = getCookie("isBooked") || "false";
     const locker_id = getCookie("locker_id") || "";
+    const out_date = getCookie("out_date") || "";
+    const date_out = new Date(out_date);
+    const date = new Date();
+    const diff = Math.abs(date.getTime() - date_out.getTime());
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24)); 
     const email = getCookie("email") || "";
     setEmail(email);
     setLockerId(locker_id);
     setLocker(JSON.parse(cookie));
+    setOutDate(diffDays);
+    
     setIsBooked(isBook === "true");
   }, [selectedZone]);
 
@@ -349,7 +359,7 @@ const Locker = () => {
               borderRadius={5}
               border={"0.2px solid"}
             >
-              <Text fontSize={35}>00</Text>
+              <Text fontSize={35}>{out_dated}</Text>
             </Box>
           </Box>
           <Box
