@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { serviceValidation } from "../lib/fetcher"
 import { useEffect } from "react";
+import Loading from "../loading/page";
 
 const Callback = () => {
     const searchParams = useSearchParams();
@@ -22,7 +23,7 @@ const Callback = () => {
         }
       }, [router, ticket]);
     
-    return <h1>Loading...</h1>
+    return <Loading/>
 }
 
 export default Callback;

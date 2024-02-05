@@ -1,13 +1,13 @@
-import { Box, Container, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Image } from "@chakra-ui/react";
 
-const loading = () => {
+const Loading = () => {
   return (
-    <Container minW="100%" marginTop="50px" marginLeft="32px">
-      <Box width="84px" height="76px">
-        <Image src="loading.gif" alt="Sci logo"/>
+    <Center height="100vh">
+      <Box width={48} height={48} display="flex" justifyContent="center" alignItems="center">
+        <Image src="loading.gif" alt="Sci logo" />
       </Box>
-    </Container>
+    </Center>
   );
 };
 
-export default loading;
+export default Loading;

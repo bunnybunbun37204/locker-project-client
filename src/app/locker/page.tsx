@@ -15,11 +15,12 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import CircularButton from "../components/CircularButton";
 import { GrayBall, YellowBall } from "../components/Logo";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useBreakpointValue } from "@chakra-ui/react";
 import { getData } from "../lib/fetcher";
 import useSWR from "swr";
 import { getCookie } from "cookies-next";
+import useSWRMutation from "swr/mutation";
 
 interface Locker {
   locker_number: string;
@@ -32,14 +33,60 @@ interface Locker {
 
 const Locker = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const selectedZone = searchParams.get("selectedZone") || "A";
   const selectedDate = searchParams.get("selectedDate");
   const [locker, setLocker] = useState<Locker[]>([]);
+  const [email, setEmail] = useState("");
 
   const totalRowsDesktop = 6;
   const totalColsDesktop = 12;
   const totalRowsMobile = 6;
   const totalColsMobile = 6;
+
+  async function sendRequest(
+    url: string,
+    {
+      arg,
+    }: {
+      arg: {
+        user_email: string;
+        locker_id: string;
+        isBooked: string;
+        zone: string;
+        borrowed_in: string;
+        borrowed_out: string;
+      };
+    }
+  ) {
+    console.log("ARG ", JSON.stringify(arg));
+
+    return fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      method: "POST",
+      body: JSON.stringify(arg),
+    }).then((res) => res.json());
+  }
+
+  const { trigger } = useSWRMutation('https://locker-vidya-api.netlify.app/.netlify/functions/api/locker/booked', sendRequest);
+
+
+  const useOnSubmit = () => {
+    const date = selectedDate?.split("-") || ["", ""];
+
+    trigger({
+      user_email : 'email',
+      locker_id: currentLocker,
+      zone: selectedZone,
+      isBooked: "UnAvailable",
+      borrowed_in: date[0].trim(),
+      borrowed_out: date[1].trim(),
+    })
+    router.refresh();
+  }
 
   // Calculate total rows and columns based on breakpoint
   const totalRows =
@@ -53,10 +100,11 @@ const Locker = () => {
 
   useEffect(() => {
     setCurrentLocker(`${selectedZone}00`);
-    const cookie = localStorage.getItem('datajaa') || "";
+    const cookie = localStorage.getItem("datajaa") || "";
+    const email = getCookie('email') || "";
+    setEmail(email);
     setLocker(JSON.parse(cookie));
-  }, [selectedZone])
-  
+  }, [selectedZone]);
 
   const renderCircularButtons = (): JSX.Element[] => {
     const buttons: JSX.Element[] = [];
@@ -65,7 +113,7 @@ const Locker = () => {
     for (let row = 0; row < totalRows; row++) {
       const rowButtons: JSX.Element[] = [];
       for (let col = 0; col < totalCols; col++) {
-        const label = locker[index]
+        const label = locker[index];
         if (label) {
           const isDisabled = label.locker_status !== "Available"; // You can set your logic for disabled buttons here
           rowButtons.push(
@@ -91,7 +139,7 @@ const Locker = () => {
 
   // Function to handle the "Next" button click
   const handleNextClick = () => {
-    const maxPosition =  locker.length - totalRows * totalCols;
+    const maxPosition = locker.length - totalRows * totalCols;
     const nextPosition = Math.min(
       currentPosition + totalRows * totalCols,
       maxPosition
@@ -196,6 +244,7 @@ const Locker = () => {
             color={"white"}
             marginTop={5}
             borderRadius={17}
+            onClick={useOnSubmit}
           >
             จอง
           </Button>
