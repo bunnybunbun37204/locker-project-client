@@ -93,6 +93,8 @@ const Locker = () => {
     setCookie("isBooked", true);
     setCookie("locker_id", currentLocker);
     setCookie("out_dated", date[1].trim());
+    console.log(new Date(date[1].trim()));
+    
 
     router.push(
       `/callbackBooking?selectedDate=${selectedDate}&selectedZone=${selectedZone}`
@@ -131,7 +133,9 @@ const Locker = () => {
     const cookie = localStorage.getItem("datajaa") || "";
     const isBook = getCookie("isBooked") || "false";
     const locker_id = getCookie("locker_id") || "";
-    const out_date = getCookie("out_date") || "";
+    const out_date = getCookie("out_dated") || "";
+    console.log(out_date);
+    
     const date_out = new Date(out_date);
     const date = new Date();
     const diff = Math.abs(date.getTime() - date_out.getTime());
