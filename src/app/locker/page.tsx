@@ -136,6 +136,8 @@ const Locker = () => {
     const date = new Date();
     const diff = Math.abs(date.getTime() - date_out.getTime());
     const diffDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+    console.log(diffDays);
+    
     const email = getCookie("email") || "";
     setEmail(email);
     setLockerId(locker_id);
